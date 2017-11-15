@@ -1,5 +1,4 @@
 # aladinoLamp - An IoT WiFi RGB Led Lamp
--------------------------
 **Description:**
 > This project aims to build a smart multicolor wifi lamp which can be controlled remotely through an app or other compatible device.
 
