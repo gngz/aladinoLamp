@@ -1,6 +1,6 @@
 # aladinoLamp - An IoT WiFi RGB Led Lamp
-## Description:
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce elementum scelerisque felis quis tempus. Suspendisse potenti. Mauris vestibulum facilisis tortor vitae porttitor. Nulla auctor tincidunt felis, a tristique ante pulvinar a. Phasellus interdum tortor felis, id accumsan felis lobortis vitae. Integer sit amet ullamcorper mauris. Ut id purus varius, porttitor arcu a, luctus dui. Sed pharetra metus ac eleifend condimentum. Proin faucibus ipsum pellentesque urna faucibus, sit amet malesuada nunc dapibus. Donec a purus enim. Cras lobortis mattis imperdiet. Donec sed maximus turpis. Fusce risus elit, iaculis eu placerat non, commodo et sem.
+#### Description:
+This project aims to build a smart multicolor wifi lamp which can be controlled remotely through an app or other compatible device.
 
 #### Made By:
 * André Moura
@@ -10,3 +10,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce elementum sceleri
 * Vitor Teixeira
 * Edgar Almada
 *  Enio Gomes
+
+#### Project Folder Structure
+> LampFirmware - folder that contains the source code of lamp firmware.
+> ControlApplication - folder that contains the source code of Control and Configuration Software
