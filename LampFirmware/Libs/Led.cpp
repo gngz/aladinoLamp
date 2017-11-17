@@ -9,7 +9,7 @@
 #include "Led.h"
 
 
-void Led::setPins(char r, char g, char b){
+void Led::setPins(uint8_t r, uint8_t g, uint8_t b){
 
 	pin_r = r;
 	pin_g = g;
@@ -25,9 +25,9 @@ void Led::setPins(char r, char g, char b){
 
 void Led::setColor(color c){
 
-	char red;
-	char green;
-	char blue;
+	uint8_t red;
+	uint8_t green;
+	uint8_t blue;
 	float iten;
 
 	// Save color
@@ -39,7 +39,7 @@ void Led::setColor(color c){
 
 	// Calculate Color by itensity
 
-	iten = c.intensity / 100;
+	iten = (float) c.intensity / 100;
 	red = c.red * iten;
 	green = c.green * iten;
 	blue = c.blue * iten;
@@ -50,4 +50,43 @@ void Led::setColor(color c){
 	analogWrite(pin_g,green);
 	analogWrite(pin_b,blue);
 
+}
+
+
+void Led::setColor(uint8_t r, uint8_t g, uint8_t b, uint8_t intensity){
+
+	uint8_t red;
+	uint8_t green;
+	uint8_t blue;
+	float iten;
+
+	// Save color
+
+	colour.red = r;
+	colour.green = g;
+	colour.blue = b;
+	colour.intensity = intensity;
+	// Calculate Color by itensity
+
+	iten = (float) intensity / 100;
+	red = r * iten;
+	green = g * iten;
+	blue = b * iten;
+
+	// NodeMCU Dependent Code
+
+	analogWrite(pin_r,red);
+	analogWrite(pin_g,green);
+	analogWrite(pin_b,blue);
+
+}
+
+color Led::getColor()
+{
+	return colour;
+}
+
+Led::Led(uint8_t r, uint8_t g, uint8_t b)
+{
+	setPins(r,g,b);
 }
