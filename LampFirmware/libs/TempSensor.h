@@ -1,3 +1,10 @@
+/*
+  aladinoLamp Firmware - Maxim DS1631 Temperature Sensor Driver - Header File
+  Defines Temperature Sensor Operations
+  Created by Gonçalo Passos (Génios da Lampada)
+  
+*/
+
 #ifndef TSENSOR_H
 #define TSENSOR_H
 
@@ -14,15 +21,17 @@ private:
 	int8_t temp_h, temp_l;
 	byte temp_address;
 public:
+  TempSensor();
 	TempSensor(byte address);
+  void startConvert();
 	void stopConvert();
 	void setConfig();
 	byte getConfig();
 	float getTemp();
-	bool detect();
+  bool detect();
 
 
-}
+};
 
 
 

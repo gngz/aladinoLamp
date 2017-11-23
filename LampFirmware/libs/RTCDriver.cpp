@@ -8,12 +8,14 @@
 #include "RTCDriver.h"
 #include <Wire.h>
 
+
+
 bool DateTime::setTime(uint8_t hours, uint8_t minutes, uint8_t seconds) {
 	if(hours>=24)
 		return false;
-	if(minutes>=59)
+	if(minutes>59)
 		return false;
-	if(seconds>=59)
+	if(seconds>59)
 		return false;
 
 	this->hours = hours;
@@ -24,11 +26,9 @@ bool DateTime::setTime(uint8_t hours, uint8_t minutes, uint8_t seconds) {
 }
 
 bool DateTime::setDate(uint8_t day, uint8_t month, int year) {
-	if(day>=24)
+	if(day>31)
 		return false;
-	if(minutes>=59)
-		return false;
-	if(seconds>=59)
+	if(month>12)
 		return false;
 
 	this->day = day;
@@ -49,31 +49,31 @@ bool DateTime::setDow(uint8_t dow) {
 
 
 uint8_t DateTime::getSeconds() {
-	retun this->seconds;
+	return this->seconds;
 }
 
 uint8_t DateTime::getMinutes() {
-	retun this->minutes;
+	return this->minutes;
 }
 
 uint8_t DateTime::getHours() {
-	retun this->hours;
+	return this->hours;
 }
 
 uint8_t DateTime::getDow() {
-	retun this->dow;
+	return this->dow;
 }
 
 uint8_t DateTime::getDay() {
-	retun this->day;
+	return this->day;
 }
 
 uint8_t DateTime::getMonth() {
-	retun this->month;
+	return this->month;
 }
 
 int DateTime::getYear() {
-	retun this->year + 1970;
+	return this->year + 1970;
 }
 
 
@@ -131,12 +131,12 @@ DateTime RTCDriver::getDateTime() {
 	minutes = decodeBCD(minutes);
 	hours = decodeBCD(hours & 0x3F);
 	weekday = decodeBCD(weekday);
-	day = decodeBCD(days);
-	month = decodeBCD(months);
-	year = decodeBCD(years)+2000;
+	days = decodeBCD(days);
+	months = decodeBCD(months);
+	years = decodeBCD(years)+2000;
 	
 	newdate.setTime(hours,minutes,seconds);
-	newdate.setDate(day,month,year);
+	newdate.setDate(days,months,years);
 	newdate.setDow(weekday);
 
 	 

@@ -9,6 +9,11 @@
 #include "TempSensor.h"
 #include <Wire.h>
 
+TempSensor::TempSensor()
+{
+  
+}
+
 TempSensor::TempSensor(byte address){
 	temp_address = address;
 	Wire.begin();

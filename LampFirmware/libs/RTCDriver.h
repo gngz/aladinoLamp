@@ -23,8 +23,8 @@
 #define FRIDAY 		6
 #define SATURDAY	7
 
-#define SUNDAY
 
+class RTCDriver;
 
 class DateTime {
 private:
@@ -73,4 +73,5 @@ public:
 	void readRam(byte addr,byte* buffer, uint8_t size);
 	byte readRam(byte addr);
 
+};
 #endif
