@@ -1,3 +1,10 @@
+
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -13,6 +20,9 @@ public class NewJFrame extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame
      */
+    static Socket cliente = null;
+    static DataInputStream din;
+    
     public NewJFrame() {
         initComponents();
     }
@@ -30,7 +40,7 @@ public class NewJFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        Sair = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
@@ -45,7 +55,6 @@ public class NewJFrame extends javax.swing.JFrame {
         jPanel1.setToolTipText("");
 
         jTextField1.setForeground(new java.awt.Color(204, 204, 204));
-        jTextField1.setText("Address");
         jTextField1.setToolTipText("");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -61,11 +70,11 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Sair");
-        jButton2.setEnabled(false);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        Sair.setText("Sair");
+        Sair.setEnabled(false);
+        Sair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                SairActionPerformed(evt);
             }
         });
 
@@ -78,7 +87,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(jButton1)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(jButton2)
+                .add(Sair)
                 .add(0, 11, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -87,7 +96,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jButton1)
-                    .add(jButton2))
+                    .add(Sair))
                 .add(0, 12, Short.MAX_VALUE))
         );
 
@@ -198,13 +207,13 @@ public class NewJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        connectAt(jTextField1.getText());
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void SairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SairActionPerformed
         int a = 2;
 
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_SairActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
@@ -251,12 +260,42 @@ public class NewJFrame extends javax.swing.JFrame {
                 new NewJFrame().setVisible(true);
             }
         });
+        
+        
+        
+       
+       
     }
-
+    
+    protected void connectAt(String Address){
+        try {
+            cliente = new Socket(Address,12345);
+        } catch (IOException ex) {
+                    System.out.println(ex);
+                    System.out.println("Endereço nao existente");
+                    return;
+        }
+        System.out.println("Utilizador ligado com sucesso no endereço "+cliente.getInetAddress());
+        grayConnect(cliente.isConnected());
+        
+    }
+    
+    protected void grayConnect(boolean check){
+        
+        if(check){
+            jTextField1.setEditable(!check);
+            jButton1.setEnabled(!check);
+            Sair.setEnabled(check);
+        }
+        else {
+            jTextField1.setEditable(check);
+        }
+        
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    static javax.swing.JButton Sair;
     javax.swing.ButtonGroup buttonGroup1;
-    javax.swing.JButton jButton1;
-    javax.swing.JButton jButton2;
+    static javax.swing.JButton jButton1;
     javax.swing.JLabel jLabel1;
     javax.swing.JPanel jPanel1;
     javax.swing.JPanel jPanel2;
@@ -265,6 +304,6 @@ public class NewJFrame extends javax.swing.JFrame {
     javax.swing.JRadioButton jRadioButton2;
     javax.swing.JRadioButton jRadioButton3;
     javax.swing.JSlider jSlider1;
-    javax.swing.JTextField jTextField1;
+    static javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
