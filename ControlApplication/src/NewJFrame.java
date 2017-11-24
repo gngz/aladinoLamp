@@ -37,6 +37,9 @@ public class NewJFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        jDialog1 = new javax.swing.JDialog();
+        jButton2 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
@@ -48,6 +51,45 @@ public class NewJFrame extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jSlider1 = new javax.swing.JSlider();
         jLabel1 = new javax.swing.JLabel();
+
+        jDialog1.setBounds(new java.awt.Rectangle(50, 50, 100, 100));
+        jDialog1.setFont(new java.awt.Font("18thCentury", 0, 10)); // NOI18N
+        jDialog1.setLocationByPlatform(true);
+        jDialog1.setMinimumSize(new java.awt.Dimension(255, 154));
+        jDialog1.setResizable(false);
+
+        jButton2.setText("OK");
+        jButton2.setToolTipText("");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Ligado ao servidor com sucesso");
+
+        org.jdesktop.layout.GroupLayout jDialog1Layout = new org.jdesktop.layout.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jDialog1Layout.createSequentialGroup()
+                .addContainerGap(55, Short.MAX_VALUE)
+                .add(jLabel2)
+                .add(49, 49, 49))
+            .add(jDialog1Layout.createSequentialGroup()
+                .add(89, 89, 89)
+                .add(jButton2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 73, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jDialog1Layout.createSequentialGroup()
+                .addContainerGap(53, Short.MAX_VALUE)
+                .add(jLabel2)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(jButton2)
+                .add(53, 53, 53))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -211,7 +253,13 @@ public class NewJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void SairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SairActionPerformed
-        int a = 2;
+        try {
+            cliente.close();
+        } catch (IOException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("SAIR PRESSIONADO");
+        grayConnect(false);
 
     }//GEN-LAST:event_SairActionPerformed
 
@@ -226,6 +274,10 @@ public class NewJFrame extends javax.swing.JFrame {
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton2ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -260,43 +312,38 @@ public class NewJFrame extends javax.swing.JFrame {
                 new NewJFrame().setVisible(true);
             }
         });
-        
-        
-        
-       
-       
+    
     }
     
     protected void connectAt(String Address){
         try {
             cliente = new Socket(Address,12345);
         } catch (IOException ex) {
-                    System.out.println(ex);
+                    //System.out.println(ex);
                     System.out.println("Endereço nao existente");
                     return;
         }
         System.out.println("Utilizador ligado com sucesso no endereço "+cliente.getInetAddress());
         grayConnect(cliente.isConnected());
         
+        
     }
     
     protected void grayConnect(boolean check){
         
-        if(check){
             jTextField1.setEditable(!check);
             jButton1.setEnabled(!check);
             Sair.setEnabled(check);
-        }
-        else {
-            jTextField1.setEditable(check);
-        }
-        
+            jDialog1.setVisible(check);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     static javax.swing.JButton Sair;
     javax.swing.ButtonGroup buttonGroup1;
     static javax.swing.JButton jButton1;
+    static javax.swing.JButton jButton2;
+    static javax.swing.JDialog jDialog1;
     javax.swing.JLabel jLabel1;
+    javax.swing.JLabel jLabel2;
     javax.swing.JPanel jPanel1;
     javax.swing.JPanel jPanel2;
     javax.swing.JPanel jPanel3;
