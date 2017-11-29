@@ -3,10 +3,12 @@ import java.awt.Color;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.math.BigInteger;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JColorChooser;
+import org.omg.CORBA.INTERNAL;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,9 +25,20 @@ public class NewJFrame extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame
      */
+    
+    //Comandos
+    private final byte [] CHECK = {0,0};
+    private final byte [] SETDATE = {1,3};
+    private final byte [] SETTIME = {2,3};
+    static private final byte [] SETCOLOR = {3,3};
+    private final byte [] SETMODE = {4,1};
+    private final byte [] ACK = {5,0};
+
+    
     static Socket cliente = null;
     static DataInputStream din;
     static PrintStream dout;
+    int [] rgb = new int[3];
     
     public NewJFrame() {
         initComponents();
@@ -57,6 +70,9 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         jDialog1.setBounds(new java.awt.Rectangle(50, 50, 100, 100));
         jDialog1.setFont(new java.awt.Font("18thCentury", 0, 10)); // NOI18N
@@ -251,34 +267,67 @@ public class NewJFrame extends javax.swing.JFrame {
                 .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jButton3)
                     .add(jLabel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 29, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(191, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel3.getAccessibleContext().setAccessibleName("Cor");
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Temperatura"));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon("D:\\Transferências\\thermometer-icon-e1490795165888.png")); // NOI18N
+        jLabel4.setToolTipText("");
+
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("jLabel5");
+
+        org.jdesktop.layout.GroupLayout jPanel4Layout = new org.jdesktop.layout.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jLabel4)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(jLabel5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 72, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(213, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jLabel5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 52, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel4))
+                .add(0, 25, Short.MAX_VALUE))
+        );
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .addContainerGap(24, Short.MAX_VALUE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 318, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(18, 18, 18)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 318, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jPanel4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(17, 17, 17))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(layout.createSequentialGroup()
+                        .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(18, 18, 18)
+                        .add(jPanel4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(layout.createSequentialGroup()
                         .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .add(113, 113, 113))
         );
 
         pack();
@@ -318,7 +367,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         JColorChooser escolhe = new JColorChooser();
         Color cor = escolhe.showDialog(null, "Teste", Color.RED); //block à espera da cor
-        int [] rgb = {cor.getRed(),cor.getGreen(),cor.getBlue()};
+        rgb = new int[] {cor.getRed(),cor.getGreen(),cor.getBlue()};
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
@@ -354,8 +403,24 @@ public class NewJFrame extends javax.swing.JFrame {
                 new NewJFrame().setVisible(true);
             }
         });
+        int[] teste = {2,5,6};
+        sendData(SETCOLOR, 5, teste);
     }
+  
+static protected void sendData(byte [] tipo, int size ,int[] valores) {
     
+    byte [] data = new byte [size]; //size
+    data[0] = tipo[0]; data[1] = tipo [1];
+    for(int i = 2; i < data.length; i++){
+            data[i] = (byte) valores[i-2]; // valores rbg por exemplo. Array de ints SIGNED
+            }
+            dout.write(data, 0, size); // a testar com o node mcu
+            
+            for(int i = 0; i < data.length; i++){
+                System.out.print(data[i]+" ,");
+            }
+}
+
     protected void connectAt(String Address){
         try {
             cliente = new Socket(Address,12345);
@@ -382,6 +447,7 @@ public class NewJFrame extends javax.swing.JFrame {
         if(cliente.isConnected() && jRadioButton1.isSelected()){
             // unlock
         }
+  
     }
     
     
@@ -395,9 +461,12 @@ public class NewJFrame extends javax.swing.JFrame {
     javax.swing.JLabel jLabel1;
     javax.swing.JLabel jLabel2;
     javax.swing.JLabel jLabel3;
+    javax.swing.JLabel jLabel4;
+    javax.swing.JLabel jLabel5;
     javax.swing.JPanel jPanel1;
     javax.swing.JPanel jPanel2;
     javax.swing.JPanel jPanel3;
+    javax.swing.JPanel jPanel4;
     javax.swing.JRadioButton jRadioButton1;
     javax.swing.JRadioButton jRadioButton2;
     javax.swing.JRadioButton jRadioButton3;
