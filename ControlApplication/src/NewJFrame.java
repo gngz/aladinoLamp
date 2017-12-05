@@ -1,6 +1,7 @@
 
 import java.awt.Color;
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.math.BigInteger;
@@ -37,9 +38,10 @@ public class NewJFrame extends javax.swing.JFrame {
     
     static Socket cliente = null;
     static DataInputStream din;
-    static PrintStream dout;
-    int [] rgb = new int[3];
-    
+   //static PrintStream dout;
+    //static PrintStream dout;
+    //int [] rgb = new int[3];
+    static DataOutputStream dout;
     public NewJFrame() {
         initComponents();
     }
@@ -65,6 +67,7 @@ public class NewJFrame extends javax.swing.JFrame {
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jRadioButton3 = new javax.swing.JRadioButton();
+        jButton4 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jSlider1 = new javax.swing.JSlider();
         jLabel1 = new javax.swing.JLabel();
@@ -186,16 +189,25 @@ public class NewJFrame extends javax.swing.JFrame {
         buttonGroup1.add(jRadioButton3);
         jRadioButton3.setText("RainBow");
 
+        jButton4.setText("jButton4");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jRadioButton1)
-                    .add(jRadioButton3)
-                    .add(jRadioButton2))
+                .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(jButton4)
+                    .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                        .add(jRadioButton1)
+                        .add(jRadioButton3)
+                        .add(jRadioButton2)))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -207,7 +219,9 @@ public class NewJFrame extends javax.swing.JFrame {
                 .add(jRadioButton2)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(jRadioButton3)
-                .addContainerGap(136, Short.MAX_VALUE))
+                .add(18, 18, 18)
+                .add(jButton4)
+                .addContainerGap(95, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Controlo"));
@@ -225,7 +239,6 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel1.setEnabled(false);
 
         jButton3.setText("Escolher");
-        jButton3.setEnabled(false);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -235,7 +248,6 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Cor");
         jLabel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jLabel3.setEnabled(false);
 
         org.jdesktop.layout.GroupLayout jPanel3Layout = new org.jdesktop.layout.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -272,7 +284,6 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Temperatura"));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon("D:\\Transferências\\thermometer-icon-e1490795165888.png")); // NOI18N
         jLabel4.setToolTipText("");
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -287,7 +298,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 .add(jLabel4)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(jLabel5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 72, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(213, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -334,7 +345,11 @@ public class NewJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        connectAt(jTextField1.getText());
+        try {
+            connectAt(jTextField1.getText());
+        } catch (IOException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void SairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SairActionPerformed
@@ -367,8 +382,20 @@ public class NewJFrame extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         JColorChooser escolhe = new JColorChooser();
         Color cor = escolhe.showDialog(null, "Teste", Color.RED); //block à espera da cor
-        rgb = new int[] {cor.getRed(),cor.getGreen(),cor.getBlue()};
+        int [] rgb = new int[3];
+        rgb[0] = cor.getRed();
+        rgb [1] = cor.getGreen();
+        rgb[2] = cor.getBlue();
+        try {
+            sendData(SETCOLOR,5,rgb);
+        } catch (IOException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+       
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -403,33 +430,37 @@ public class NewJFrame extends javax.swing.JFrame {
                 new NewJFrame().setVisible(true);
             }
         });
-        int[] teste = {2,5,6};
-        sendData(SETCOLOR, 5, teste);
+        //int[] teste = {2,5,6};
+//        sendData(SETCOLOR, 5, teste);
     }
   
-static protected void sendData(byte [] tipo, int size ,int[] valores) {
+static protected void sendData(byte [] tipo, int size ,int[] valores) throws IOException {
     
     byte [] data = new byte [size]; //size
     data[0] = tipo[0]; data[1] = tipo [1];
     for(int i = 2; i < data.length; i++){
             data[i] = (byte) valores[i-2]; // valores rbg por exemplo. Array de ints SIGNED
             }
-            dout.write(data, 0, size); // a testar com o node mcu
+            
+            dout.write(data, 0, data.length); // a testar com o node mcu
             
             for(int i = 0; i < data.length; i++){
                 System.out.print(data[i]+" ,");
+           
             }
 }
 
-    protected void connectAt(String Address){
+    protected void connectAt(String Address) throws IOException{
         try {
-            cliente = new Socket(Address,12345);
+            cliente = new Socket(Address,10101);
         } catch (IOException ex) {
                     //System.out.println(ex);
                     System.out.println("Endereço nao existente");
                     return;
         }
         System.out.println("Utilizador ligado com sucesso no endereço "+cliente.getInetAddress());
+        dout =  new DataOutputStream(cliente.getOutputStream());
+
         grayConnect(cliente.isConnected());
         
         
@@ -457,6 +488,7 @@ static protected void sendData(byte [] tipo, int size ,int[] valores) {
     static javax.swing.JButton jButton1;
     static javax.swing.JButton jButton2;
     javax.swing.JButton jButton3;
+    javax.swing.JButton jButton4;
     static javax.swing.JDialog jDialog1;
     javax.swing.JLabel jLabel1;
     javax.swing.JLabel jLabel2;
