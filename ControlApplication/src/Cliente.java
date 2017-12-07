@@ -119,7 +119,7 @@ public class Cliente {
     }
     
     public void receiveData(){
-        
+        System.out.println("Teste");
     }
     
 }
