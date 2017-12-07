@@ -31,12 +31,14 @@ public class NewJFrame extends javax.swing.JFrame {
     private final byte [] CHECK = {0,0};
     private final byte [] SETDATE = {1,3};
     private final byte [] SETTIME = {2,3};
-    static private final byte [] SETCOLOR = {3,3};
-    private final byte [] SETMODE = {4,1};
-    private final byte [] ACK = {5,0};
+    static private final byte [] SETCOLOR = {3};
+    private final byte [] SETMODE = {2};
+    private final byte [] ACK = {0};
+    private final byte [] requestTemp = {6};
+    private final byte [] sendTemp = {7};
 
     
-    static Socket cliente = null;
+    static Cliente cliente = null;
     static DataInputStream din;
    //static PrintStream dout;
     //static PrintStream dout;
@@ -353,11 +355,9 @@ public class NewJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void SairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SairActionPerformed
-        try {
-            cliente.close();
-        } catch (IOException ex) {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+      
+        cliente.killCurrentServ();
+       
         System.out.println("SAIR PRESSIONADO");
         grayConnect(false);
 
@@ -386,11 +386,6 @@ public class NewJFrame extends javax.swing.JFrame {
         rgb[0] = cor.getRed();
         rgb [1] = cor.getGreen();
         rgb[2] = cor.getBlue();
-        try {
-            sendData(SETCOLOR,5,rgb);
-        } catch (IOException ex) {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -434,34 +429,12 @@ public class NewJFrame extends javax.swing.JFrame {
 //        sendData(SETCOLOR, 5, teste);
     }
   
-static protected void sendData(byte [] tipo, int size ,int[] valores) throws IOException {
-    
-    byte [] data = new byte [size]; //size
-    data[0] = tipo[0]; data[1] = tipo [1];
-    for(int i = 2; i < data.length; i++){
-            data[i] = (byte) valores[i-2]; // valores rbg por exemplo. Array de ints SIGNED
-            }
-            
-            dout.write(data, 0, data.length); // a testar com o node mcu
-            
-            for(int i = 0; i < data.length; i++){
-                System.out.print(data[i]+" ,");
-           
-            }
-}
-
     protected void connectAt(String Address) throws IOException{
-        try {
-            cliente = new Socket(Address,10101);
-        } catch (IOException ex) {
-                    //System.out.println(ex);
-                    System.out.println("Endereço nao existente");
-                    return;
-        }
-        System.out.println("Utilizador ligado com sucesso no endereço "+cliente.getInetAddress());
-        dout =  new DataOutputStream(cliente.getOutputStream());
+        
 
-        grayConnect(cliente.isConnected());
+        cliente = new Cliente(Address, 8080);
+        cliente.Initialize();
+        //grayConnect(cliente.isConnected());
         
         
     }
@@ -475,9 +448,9 @@ static protected void sendData(byte [] tipo, int size ,int[] valores) throws IOE
     }
     
     protected void modoManual(){ //verifica se está ligado ao server e se Modo manual está ativo, se estiver ativa os restantes componentes
-        if(cliente.isConnected() && jRadioButton1.isSelected()){
+      /*  if(cliente.isConnected() && jRadioButton1.isSelected()){
             // unlock
-        }
+        }*/
   
     }
     
