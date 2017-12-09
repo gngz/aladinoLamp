@@ -1,4 +1,4 @@
-  import java.io.DataInputStream;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -15,17 +15,26 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author André
+ * @author André Moura
  */
 public class Cliente {
 
      //meter encapsulamento
-    Socket cliente = null;
-    static DataInputStream din;
-    static DataOutputStream dout;
-    TempThread temp = null;
-    String Address;
-    int Port;
+    public final byte SETDATE = 4;
+    public final byte SETTIME = 5;
+    public final byte SETCOLOR = 3;
+    public final byte SETMODE = 2;
+    public final byte  ACK = 0; //echo
+    public final byte setMode = 3;
+    public final byte  requestTemp = 6;
+    public final byte  sendTemp = 7;
+    private Socket cliente = null;
+    private DataInputStream din;
+    private DataOutputStream dout;
+    private TempThread temp = null;
+    private String Address;
+    private int Port;
+    
     
     public Cliente(String Address, int Port){ //adicionar porta
         this.Address = Address;
@@ -49,7 +58,21 @@ public class Cliente {
         @Override
         public void run(){
             
-            try {
+            while(true){
+                try {
+                    Thread.sleep(1000); // requests de 1 a 1 secs
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                try {
+                    sendData((byte) 6);
+                } catch (IOException ex) {
+                    System.out.println("Pedido de temperatura enviado");
+                }din.available();//;
+                
+            }
+            
+            /*try {
                 PrintStream saida;
                 
                 saida = new PrintStream(cliente.getOutputStream());
@@ -61,7 +84,7 @@ public class Cliente {
                 }
             } catch (IOException ex) {
                 Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }*/
         }     
       }
                       
@@ -103,19 +126,33 @@ public class Cliente {
     
     
     
-    protected void sendData(byte [] tipo, int size ,int[] valores) throws IOException 
+    public void sendData(byte tipo, int size ,int[] valores) throws IOException 
     {     
     byte [] data = new byte [size]; //size
-    data[0] = tipo[0];;
-    for(int i = 1; i < data.length; i++){
+    data[0] = tipo; // previous tipo[0]
+    for(int i = 1; i < data.length; i++)
+        {
         data[i] = (byte) valores[i-1]; // valores rbg por exemplo. Array de ints SIGNED
         }
-            
+            din.read
             dout.write(data, 0, data.length); // a testar com o node mcu
             
-            for(int i = 0; i < data.length; i++){
+           /* for(int i = 0; i < data.length; i++){
                 System.out.print(data[i]+" ,");
-            }
+            }*/
+    }
+    
+    public void sendData(byte tipo, int valor) throws IOException{ //para envio de valores unicos (sem array)
+        
+        byte [] data = new byte [2];
+        data[0] = tipo;
+        data[1] = (byte) valor;
+        
+        dout.write(data, 0, 2);
+    }
+    
+    public void sendData(byte tipo) throws IOException{ // exemplos: echos, request_temp, etc
+        dout.write(tipo);
     }
     
     public void receiveData(){

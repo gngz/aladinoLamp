@@ -28,14 +28,14 @@ public class NewJFrame extends javax.swing.JFrame {
      */
     
     //Comandos
-    private final byte [] CHECK = {0,0};
-    private final byte [] SETDATE = {1,3};
-    private final byte [] SETTIME = {2,3};
-    static private final byte [] SETCOLOR = {3};
-    private final byte [] SETMODE = {2};
-    private final byte [] ACK = {0};
-    private final byte [] requestTemp = {6};
-    private final byte [] sendTemp = {7};
+    public final byte SETDATE = 4;
+    private final byte SETTIME = 5;
+    private final byte SETCOLOR = 3;
+    private final byte SETMODE = 2;
+    private final byte  ACK = 0; //echo
+    private final byte setMode = 3;
+    private final byte  requestTemp = 6;
+    private final byte  sendTemp = 7;
 
     
     static Cliente cliente = null;
@@ -235,6 +235,11 @@ public class NewJFrame extends javax.swing.JFrame {
         jSlider1.setSnapToTicks(true);
         jSlider1.setToolTipText("Escolha a intensidade da Lampada");
         jSlider1.setEnabled(false);
+        jSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSlider1StateChanged(evt);
+            }
+        });
 
         jLabel1.setText("Intensidade");
         jLabel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -386,11 +391,16 @@ public class NewJFrame extends javax.swing.JFrame {
         rgb[0] = cor.getRed();
         rgb [1] = cor.getGreen();
         rgb[2] = cor.getBlue();
+        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
        
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jSlider1StateChanged
 
     /**
      * @param args the command line arguments
