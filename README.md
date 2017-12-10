@@ -3,7 +3,7 @@
 
 **Description:**
 > This is a project for "Processos e Métricas de Software" (Software Engineer Concepts) class of University of Madeira and aims to build a smart multicolor wifi lamp which can be controlled remotely through an app or other compatible device.
-> The project is subdivided in two: the firmware of the lamp microcontroller and the control application.
+> The project is subdivided in two: the firmware of the lamp microcontroller and the control applications (Java and Android).
 
 **Made By:**
  (Génios da Lampâda Group)
@@ -17,7 +17,8 @@
 
 **Project Folder Structure**
 >* LampFirmware - folder that contains the source code of lamp firmware.
->* ControlApplication - folder that contains the source code of Control and Configuration Software
+>* ControlApplication - folder that contains the source code of Java Control and Configuration Software
+>* AndroidApplication - folder that contains the source code of Android Control and Configuration Software
 
 **License**
 >BSD 3-Clause License
