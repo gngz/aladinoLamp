@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">AladinosLamp</string>
+    <string name="ala_s_lamp">Aladino´s Lamp</string>
+    <string name="sel_cor">Select Color</string>
+    <string name="m_rainbow">Rainbow Mode</string>
+    <string name="m_temp">Temperature Mode</string>
+    <string name="intLevel">Intensity</string>
+</resources>
