@@ -5,13 +5,10 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.math.BigInteger;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JColorChooser;
-import javax.swing.SwingUtilities;
 import org.omg.CORBA.INTERNAL;
 
 /*
@@ -22,7 +19,7 @@ import org.omg.CORBA.INTERNAL;
 
 /**
  *
- * @author André Moura
+ * @author André
  */
 public class NewJFrame extends javax.swing.JFrame {
 
@@ -31,9 +28,15 @@ public class NewJFrame extends javax.swing.JFrame {
      */
     
     //Comandos
-  
-    JColorChooser escolhe = new JColorChooser();
-    Color cor = new Color(255,255,255);
+    public final byte SETDATE = 4;
+    private final byte SETTIME = 5;
+    private final byte SETCOLOR = 3;
+    private final byte SETMODE = 2;
+    private final byte  ACK = 0; //echo
+    private final byte setMode = 3;
+    private final byte  requestTemp = 6;
+    private final byte  sendTemp = 7;
+
     
     static Cliente cliente = null;
     static DataInputStream din;
@@ -41,7 +44,6 @@ public class NewJFrame extends javax.swing.JFrame {
     //static PrintStream dout;
     //int [] rgb = new int[3];
     static DataOutputStream dout;
-    
     public NewJFrame() {
         initComponents();
     }
@@ -226,7 +228,8 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Controlo"));
 
-        jSlider1.setMinorTickSpacing(1);
+        jSlider1.setMinimum(10);
+        jSlider1.setMinorTickSpacing(20);
         jSlider1.setPaintLabels(true);
         jSlider1.setPaintTicks(true);
         jSlider1.setSnapToTicks(true);
@@ -349,15 +352,11 @@ public class NewJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-    try {
-    connectAt(jTextField1.getText());
-    
-    jSlider1.setEnabled(true);
-    } catch (IOException ex) {
-    Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-    }    
-        
+        try {
+            connectAt(jTextField1.getText());
+        } catch (IOException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void SairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SairActionPerformed
@@ -386,25 +385,13 @@ public class NewJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        JColorChooser escolhe = new JColorChooser();
+        Color cor = escolhe.showDialog(null, "Teste", Color.RED); //block à espera da cor
+        int [] rgb = new int[3];
+        rgb[0] = cor.getRed();
+        rgb [1] = cor.getGreen();
+        rgb[2] = cor.getBlue();
         
-            
-            cor = escolhe.showDialog(null, "Teste", cor); //block à espera da cor
-            int [] rgb = new int[4];
-            rgb[0] = cor.getRed();
-            rgb [1] = cor.getGreen();
-            rgb[2] = cor.getBlue();
-            rgb[3] = jSlider1.getValue();
-            
-            cliente.setParar(true);
-    
-            try{
-            cliente.sendData(cliente.SETCOLOR,rgb.length, rgb);
-            }
-         catch (IOException ex) {
-            System.out.println("Erro ao enviar dados de cor");
-        }
-            cliente.temp.recomeçar();
-       
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -412,34 +399,13 @@ public class NewJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
-            int [] rgb = new int[4];
-            rgb[0] = cor.getRed();
-            rgb[1] = cor.getGreen();
-            rgb[2] = cor.getBlue();
-            rgb[3] = jSlider1.getValue();
-            
-            try
-            {
-                 cliente.setParar(true);
-            }
-            catch (Exception  ex) {
-            System.out.println("Erro ao enviar dados de cor");
-            }
-    
-            try{
-            cliente.sendData(cliente.SETCOLOR,rgb.length, rgb);
-            
-            }
-         catch (IOException ex) {
-            System.out.println("Erro ao enviar dados de cor");
-        }
-            cliente.temp.recomeçar();
+        // TODO add your handling code here:
     }//GEN-LAST:event_jSlider1StateChanged
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) throws UnknownHostException {
+    public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -469,11 +435,18 @@ public class NewJFrame extends javax.swing.JFrame {
                 new NewJFrame().setVisible(true);
             }
         });
-      
- }  
+        //int[] teste = {2,5,6};
+//        sendData(SETCOLOR, 5, teste);
+    }
+  
     protected void connectAt(String Address) throws IOException{
         
-        cliente = new Cliente(Address, 10101, true, this);                  
+
+        cliente = new Cliente(Address, 8080);
+        cliente.Initialize();
+        //grayConnect(cliente.isConnected());
+        
+        
     }
     
     protected void grayConnect(boolean check){
@@ -491,8 +464,6 @@ public class NewJFrame extends javax.swing.JFrame {
   
     }
     
-
-
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     static javax.swing.JButton Sair;
@@ -506,7 +477,7 @@ public class NewJFrame extends javax.swing.JFrame {
     javax.swing.JLabel jLabel2;
     javax.swing.JLabel jLabel3;
     javax.swing.JLabel jLabel4;
-    public javax.swing.JLabel jLabel5;
+    javax.swing.JLabel jLabel5;
     javax.swing.JPanel jPanel1;
     javax.swing.JPanel jPanel2;
     javax.swing.JPanel jPanel3;
