@@ -11,7 +11,7 @@
 * Gonçalo Passos
 * Enmanuel Gonçalves Gonçalves
 * Paulo Sousa
-* Vitor Teixeira
+* Vitor Trindade
 * Edgar Almada
 *  Enio Gomes
 
