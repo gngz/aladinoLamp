@@ -11,6 +11,7 @@ import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JColorChooser;
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import org.omg.CORBA.INTERNAL;
 
@@ -31,16 +32,18 @@ public class NewJFrame extends javax.swing.JFrame {
      */
     
     //Comandos
-  
+    private static NewJFrame frame;
     JColorChooser escolhe = new JColorChooser();
     Color cor = new Color(255,255,255);
     
+    //private static JFrame frame;
     static Cliente cliente = null;
     static DataInputStream din;
    //static PrintStream dout;
     //static PrintStream dout;
     //int [] rgb = new int[3];
     static DataOutputStream dout;
+    static boolean teste = false;
     
     public NewJFrame() {
         initComponents();
@@ -59,15 +62,21 @@ public class NewJFrame extends javax.swing.JFrame {
         jDialog1 = new javax.swing.JDialog();
         jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        janelaprogresso = new javax.swing.JDialog();
+        barraProgresso = new javax.swing.JProgressBar();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         Sair = new javax.swing.JButton();
+        search = new javax.swing.JButton();
+        TESTE = new javax.swing.JProgressBar();
         jPanel2 = new javax.swing.JPanel();
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jRadioButton3 = new javax.swing.JRadioButton();
-        jButton4 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jSlider1 = new javax.swing.JSlider();
         jLabel1 = new javax.swing.JLabel();
@@ -116,12 +125,59 @@ public class NewJFrame extends javax.swing.JFrame {
                 .add(53, 53, 53))
         );
 
+        janelaprogresso.setLocationByPlatform(true);
+        janelaprogresso.setMinimumSize(new java.awt.Dimension(346, 100));
+        janelaprogresso.setResizable(false);
+
+        barraProgresso.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                barraProgressoStateChanged(evt);
+            }
+        });
+
+        jLabel6.setText("Progresso");
+
+        jLabel7.setText("Dispositivo Encontrado:");
+
+        jLabel8.setText("N/A");
+
+        org.jdesktop.layout.GroupLayout janelaprogressoLayout = new org.jdesktop.layout.GroupLayout(janelaprogresso.getContentPane());
+        janelaprogresso.getContentPane().setLayout(janelaprogressoLayout);
+        janelaprogressoLayout.setHorizontalGroup(
+            janelaprogressoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(janelaprogressoLayout.createSequentialGroup()
+                .add(22, 22, 22)
+                .add(janelaprogressoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(janelaprogressoLayout.createSequentialGroup()
+                        .add(jLabel7)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(jLabel8)
+                        .add(0, 0, Short.MAX_VALUE))
+                    .add(janelaprogressoLayout.createSequentialGroup()
+                        .add(jLabel6, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(barraProgresso, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 262, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        janelaprogressoLayout.setVerticalGroup(
+            janelaprogressoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(janelaprogressoLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(janelaprogressoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(jLabel6, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+                    .add(barraProgresso, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(janelaprogressoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jLabel8)
+                    .add(jLabel7))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Connect"));
         jPanel1.setToolTipText("");
 
-        jTextField1.setForeground(new java.awt.Color(204, 204, 204));
         jTextField1.setToolTipText("");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -145,14 +201,31 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
+        search.setText("Search");
+        search.setActionCommand("Entrar");
+        search.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                searchStateChanged(evt);
+            }
+        });
+        search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
-                .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 173, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 173, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(TESTE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(jButton1)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(search, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(jButton1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(Sair)
                 .add(0, 11, Short.MAX_VALUE))
@@ -164,7 +237,11 @@ public class NewJFrame extends javax.swing.JFrame {
                     .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jButton1)
                     .add(Sair))
-                .add(0, 12, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(search, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(TESTE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("User Mode"));
@@ -189,26 +266,17 @@ public class NewJFrame extends javax.swing.JFrame {
         buttonGroup1.add(jRadioButton3);
         jRadioButton3.setText("RainBow");
 
-        jButton4.setText("jButton4");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(jButton4)
-                    .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                        .add(jRadioButton1)
-                        .add(jRadioButton3)
-                        .add(jRadioButton2)))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jRadioButton1)
+                    .add(jRadioButton3)
+                    .add(jRadioButton2))
+                .addContainerGap(235, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -219,14 +287,13 @@ public class NewJFrame extends javax.swing.JFrame {
                 .add(jRadioButton2)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(jRadioButton3)
-                .add(18, 18, 18)
-                .add(jButton4)
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addContainerGap(136, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Controlo"));
 
-        jSlider1.setMinorTickSpacing(1);
+        jSlider1.setMinimum(10);
+        jSlider1.setMinorTickSpacing(20);
         jSlider1.setPaintLabels(true);
         jSlider1.setPaintTicks(true);
         jSlider1.setSnapToTicks(true);
@@ -340,9 +407,9 @@ public class NewJFrame extends javax.swing.JFrame {
                         .add(jPanel4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(layout.createSequentialGroup()
                         .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .add(113, 113, 113))
+                .add(80, 80, 80))
         );
 
         pack();
@@ -351,7 +418,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
     try {
-    connectAt(jTextField1.getText());
+    connectAt(jTextField1.getText(), true);
     
     jSlider1.setEnabled(true);
     } catch (IOException ex) {
@@ -407,10 +474,6 @@ public class NewJFrame extends javax.swing.JFrame {
        
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-       
-    }//GEN-LAST:event_jButton4ActionPerformed
-
     private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
             int [] rgb = new int[4];
             rgb[0] = cor.getRed();
@@ -436,10 +499,23 @@ public class NewJFrame extends javax.swing.JFrame {
             cliente.temp.recomeçar();
     }//GEN-LAST:event_jSlider1StateChanged
 
+    private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
+        janelaprogresso.setVisible(true);
+        teste = true;
+    }//GEN-LAST:event_searchActionPerformed
+
+    private void searchStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_searchStateChanged
+        
+    }//GEN-LAST:event_searchStateChanged
+
+    private void barraProgressoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_barraProgressoStateChanged
+        
+    }//GEN-LAST:event_barraProgressoStateChanged
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) throws UnknownHostException {
+    public static void main(String args[]) throws UnknownHostException, IOException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -466,17 +542,30 @@ public class NewJFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NewJFrame().setVisible(true);
+               frame = new NewJFrame();
+               frame.setVisible(true);
             }
         });
-      
- }  
-    protected void connectAt(String Address) throws IOException{
+        while(true){
+            System.out.println(teste);
+        if(teste){
+            connectAt("hehe",false);
+        }
+    }
         
-        cliente = new Cliente(Address, 10101, true, this);                  
+ }  
+    
+    public NewJFrame getFrame(){
+        return frame;
+    }
+    static protected void connectAt(String Address, boolean tipodeconnect) throws IOException{
+        
+        cliente = new Cliente(Address, 10101, tipodeconnect, frame);                  
     }
     
-    protected void grayConnect(boolean check){
+    
+    
+    public void grayConnect(boolean check){
         
             jTextField1.setEditable(!check);
             jButton1.setEnabled(!check);
@@ -496,17 +585,21 @@ public class NewJFrame extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     static javax.swing.JButton Sair;
+    javax.swing.JProgressBar TESTE;
+    public javax.swing.JProgressBar barraProgresso;
     javax.swing.ButtonGroup buttonGroup1;
     static javax.swing.JButton jButton1;
     static javax.swing.JButton jButton2;
     javax.swing.JButton jButton3;
-    javax.swing.JButton jButton4;
     static javax.swing.JDialog jDialog1;
     javax.swing.JLabel jLabel1;
     javax.swing.JLabel jLabel2;
     javax.swing.JLabel jLabel3;
     javax.swing.JLabel jLabel4;
-    public javax.swing.JLabel jLabel5;
+    javax.swing.JLabel jLabel5;
+    javax.swing.JLabel jLabel6;
+    javax.swing.JLabel jLabel7;
+    javax.swing.JLabel jLabel8;
     javax.swing.JPanel jPanel1;
     javax.swing.JPanel jPanel2;
     javax.swing.JPanel jPanel3;
@@ -516,5 +609,7 @@ public class NewJFrame extends javax.swing.JFrame {
     javax.swing.JRadioButton jRadioButton3;
     javax.swing.JSlider jSlider1;
     static javax.swing.JTextField jTextField1;
+    javax.swing.JDialog janelaprogresso;
+    static javax.swing.JButton search;
     // End of variables declaration//GEN-END:variables
 }

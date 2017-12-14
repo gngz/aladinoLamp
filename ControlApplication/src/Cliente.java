@@ -38,19 +38,19 @@ public class Cliente {
     public TempThread temp = null; //meter private
     private String Address;
     private int Port;
-    JFrame j ;
+    NewJFrame frame;
+    final int PORT = 6442;
     
     
-    public Cliente(String Address, int Port, boolean tipoConnect, JFrame jf){ //adicionar porta
+    public Cliente(String Address, int Port, boolean tipoConnect, NewJFrame frame) throws IOException{ //adicionar porta
         if(tipoConnect){
             this.Address = Address;
-            this.Port = Port;
-            this.j = jf;
-            Initialize(tipoConnect);
-            
         }
-        
-        
+            this.Port = PORT;
+            this.frame = frame;              
+            Initialize(tipoConnect);
+            System.out.println("Hello");
+      
     }
         class TempThread implements Runnable { // Thread temp
 
@@ -83,8 +83,7 @@ public class Cliente {
                             String temperatura = new String();
                             
                             temperatura = String.format("%.2f ºC", temper);
-                            
-                          ((NewJFrame) j).jLabel5.setText(temperatura);
+                            ((NewJFrame) frame).jLabel5.setText(temperatura);
                         }
                     }
                     ) ;
@@ -142,8 +141,9 @@ public class Cliente {
         }     
     }
                       
-    public void Initialize(boolean tipoConnect){ // para os connects e disconnects sucessivos (se houver)
-        try {
+    public void Initialize(boolean tipoConnect) throws IOException{ // para os connects e disconnects sucessivos (se houver)
+            
+        System.out.println("Hello");
             if(!tipoConnect){  
                      
                 if(!findAddr()){
@@ -151,15 +151,15 @@ public class Cliente {
                     return;
                 }
                 
-                } 
-            cliente = new Socket();
-            cliente.connect(new InetSocketAddress(Address, Port), 100); // sobrepoem o endereço do construtor pelo address do findAddr
-            
-        } catch (IOException ex) {
-                    System.out.println("Endereço nao existente");
-                    return;
-        }
+            }
+            else {
+               
+                cliente = new Socket();
+                cliente.connect(new InetSocketAddress(Address, Port), 100); // sobrepoem o endereço do construtor pelo address do findAddr
+            }    
+       
         System.out.println("Utilizador ligado com sucesso no endereço "+cliente.getInetAddress());
+        
         try {
             dout =  new DataOutputStream(cliente.getOutputStream());
             din = new DataInputStream(cliente.getInputStream());
@@ -183,8 +183,9 @@ public class Cliente {
         try {
             cliente.close();
         } catch (IOException ex) {
-           System.out.println ("Cliente socket fechado"); //quando pressionar o botão disconnect.
-        }             
+           System.out.println ("Erro ao fechar o socket"); //quando pressionar o botão disconnect.
+        }
+        System.out.println ("Cliente socket fechado"); //quando pressionar o botão disconnect.
     }
     
    public void setParar(boolean parar){
@@ -247,21 +248,38 @@ public class Cliente {
     
     public boolean findAddr() throws UnknownHostException, IOException{ // ALPHA MUITO ALPHA
         InetAddress localhost = InetAddress.getLocalHost();
-
+        //int flag = 0; // indica que conseguiu se conectar - 0 = falhou e 1 = ligou
+        
         byte[] ip = localhost.getAddress();
+        
         for (int i = 1; i <= 254; i++) //redes 255.255.255.0 /24
         {
+            setbarraProgresso(i); // atualiza o UI
             ip[3] = (byte)i;
             InetAddress address = InetAddress.getByAddress(ip);
-            if (address.isReachable(1000))
+            if (address.isReachable(100))
             {
                 System.out.println("ENCONTROU O ENDEREÇO: "+address.getHostAddress());
                 Address = address.getHostAddress();
+                try
+                {
+                cliente = new Socket();
+                cliente.connect(new InetSocketAddress(Address, Port), 100); // sobrepoem o endereço do construtor pelo address do findAddr
                 return true;
+                } 
+                catch (IOException ex) {
+                    System.out.println("Keep Looking");
+                    cliente.close();
+                  }
+                    
+            System.out.println("Hello");
             }
-            
         }
-        return false;
+            return false;
     }
+    
+    public void setbarraProgresso(int valor){
+      frame.barraProgresso.setValue(valor);
+    }     
 }
  
