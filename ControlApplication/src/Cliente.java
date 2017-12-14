@@ -1,11 +1,18 @@
+import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,7 +46,7 @@ public class Cliente {
     private String Address;
     private int Port;
     NewJFrame frame;
-    final int PORT = 6442;
+    final int PORT = 10101;//6442
     
     
     public Cliente(String Address, int Port, boolean tipoConnect, NewJFrame frame) throws IOException{ //adicionar porta
@@ -49,26 +56,62 @@ public class Cliente {
             this.Port = PORT;
             this.frame = frame;              
             Initialize(tipoConnect);
-            System.out.println("Hello");
-      
+            
     }
         class TempThread implements Runnable { // Thread temp
-
+            
         Thread t;
         DataInputStream din = null;
         DataOutputStream dout = null;       
         int [] tempe = new int [3];
         boolean parar = false;
+        ArrayList<Float> temperaturas;
+        File arquivo = null;
+        FileWriter fw = null; //para a escrita no ficheiro
+        BufferedWriter bw = null;
+                      
         
-        public TempThread(DataInputStream din, DataOutputStream dout) 
+        public TempThread(DataInputStream din, DataOutputStream dout) throws IOException 
         {
              t = new Thread(this);
              t.start();
              this.din = din;
              this.dout = dout;
+             temperaturas = new ArrayList<Float>();
+             initializaFile("temperatura");
              
         }
         
+        private void initializaFile(String nome) throws IOException{
+            
+            arquivo = new File("Registo de "+nome+".csv");
+            try {
+                FileWriter fw = new FileWriter(arquivo);
+            } catch (IOException ex) {
+                System.out.println("Erro ao abrir o ficheiro");
+            }
+            FileWriter fw = new FileWriter(arquivo);
+            bw = new BufferedWriter(fw);
+        }
+        
+        public void escreveFich() throws IOException
+        {
+            int tamanho = temperaturas.size();
+                
+            DateFormat dataFormat = new SimpleDateFormat ("yyyy/MM/dd HH:mm:ss");
+            Date date = new Date();
+            
+            
+            System.out.println("Chegou aki");
+            bw.write("\"Temperatura: \""+";"+"\""+temperaturas.get(tamanho - 1).floatValue()+" ºC"+"\"" + ";"+ "\""+dataFormat.format(date)+"\"");
+            //+" ºC"+ " "+ dataFormat.format(date));"
+            
+            System.out.println(temperaturas.get(tamanho - 1).floatValue());
+            bw.newLine();
+            bw.flush(); // para atualizar o ficheiro
+          
+        }
+
         synchronized void recomeçar() {
             this.parar = false;
             notify(); 
@@ -83,7 +126,7 @@ public class Cliente {
                             String temperatura = new String();
                             
                             temperatura = String.format("%.2f ºC", temper);
-                            ((NewJFrame) frame).jLabel5.setText(temperatura);
+                            frame.jLabel5.setText(temperatura);
                         }
                     }
                     ) ;
@@ -116,8 +159,10 @@ public class Cliente {
                     
                     
                     System.out.printf("Temperatura: %.2f ºC \n",temper);
-                    
+                    temperaturas.add(new Float(temper));
+                    escreveFich();
                     setTempLabel(temper);
+                    
                     
                 } catch (IOException ex) {
                     System.out.println("Erro no envio de pedido de temperatura");
@@ -142,8 +187,7 @@ public class Cliente {
     }
                       
     public void Initialize(boolean tipoConnect) throws IOException{ // para os connects e disconnects sucessivos (se houver)
-            
-        System.out.println("Hello");
+                 
             if(!tipoConnect){  
                      
                 if(!findAddr()){
@@ -282,4 +326,3 @@ public class Cliente {
       frame.barraProgresso.setValue(valor);
     }     
 }
- 

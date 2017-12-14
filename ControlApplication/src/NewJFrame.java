@@ -1,4 +1,3 @@
-
 import java.awt.Color;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -547,7 +546,7 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
         while(true){
-            System.out.println(teste);
+           
         if(teste){
             connectAt("hehe",false);
         }
