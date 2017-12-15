@@ -36,7 +36,7 @@ public class Cliente {
     public final byte SETCOLOR = 3;
     public final byte SETMODE = 2;
     public final byte  ACK = 0; //echo
-    public final byte setMode = 3;
+    //public final byte setMode = 3;
     public final byte  requestTemp = 6;
     public final byte  sendTemp = 7;
     private Socket cliente = null;
@@ -278,6 +278,8 @@ public class Cliente {
         data[1] = (byte) valor;
         
         dout.write(data, 0, 2);
+        System.out.println(data[0]);
+        System.out.println();
     }
     
     public void sendData(byte tipo) throws IOException{ // exemplos: echos, request_temp, etc

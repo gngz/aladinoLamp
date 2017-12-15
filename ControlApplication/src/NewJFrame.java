@@ -516,11 +516,14 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void rainBowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rainBowActionPerformed
         
+        System.out.println("TESTE");
+        cliente.setParar(true);
         try {
-            cliente.sendData(cliente.setMode, 2);
+            cliente.sendData(cliente.SETMODE, 2);
         } catch (IOException ex) {
            System.out.println("Erro ao mandar o rainbow mode");
         }
+         cliente.temp.recomeçar();
     }//GEN-LAST:event_rainBowActionPerformed
 
     /**
