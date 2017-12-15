@@ -47,6 +47,7 @@ public class Cliente {
     private int Port;
     NewJFrame frame;
     final int PORT = 10101;//6442
+    private boolean is_Connected = false;
     
     
     public Cliente(String Address, int Port, boolean tipoConnect, NewJFrame frame) throws IOException{ //adicionar porta
@@ -203,7 +204,7 @@ public class Cliente {
             }    
        
         System.out.println("Utilizador ligado com sucesso no endereço "+cliente.getInetAddress());
-        
+        is_Connected = true;
         try {
             dout =  new DataOutputStream(cliente.getOutputStream());
             din = new DataInputStream(cliente.getInputStream());
@@ -215,9 +216,8 @@ public class Cliente {
     }
     
     public boolean getisConnected(){
-        System.out.println(cliente.isConnected());
-        return true;
-        //return cliente.is
+        
+        return is_Connected;
     }  
     
    public void killCurrentServ()
@@ -309,6 +309,7 @@ public class Cliente {
                 {
                 cliente = new Socket();
                 cliente.connect(new InetSocketAddress(Address, Port), 100); // sobrepoem o endereço do construtor pelo address do findAddr
+                is_Connected = true;
                 return true;
                 } 
                 catch (IOException ex) {

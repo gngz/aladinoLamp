@@ -68,19 +68,18 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        connect = new javax.swing.JButton();
         Sair = new javax.swing.JButton();
         search = new javax.swing.JButton();
-        TESTE = new javax.swing.JProgressBar();
         jPanel2 = new javax.swing.JPanel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
+        manual = new javax.swing.JRadioButton();
+        temp_modo = new javax.swing.JRadioButton();
+        rainBow = new javax.swing.JRadioButton();
         jPanel3 = new javax.swing.JPanel();
         jSlider1 = new javax.swing.JSlider();
-        jLabel1 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
+        intensidade_label = new javax.swing.JLabel();
+        escolher_cor = new javax.swing.JButton();
+        cor_Label = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -184,11 +183,11 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Connect");
-        jButton1.setActionCommand("Entrar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        connect.setText("Connect");
+        connect.setActionCommand("Entrar");
+        connect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                connectActionPerformed(evt);
             }
         });
 
@@ -218,13 +217,11 @@ public class NewJFrame extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 173, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(TESTE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 173, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(search, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(jButton1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .add(connect, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(Sair)
                 .add(0, 11, Short.MAX_VALUE))
@@ -234,36 +231,39 @@ public class NewJFrame extends javax.swing.JFrame {
             .add(jPanel1Layout.createSequentialGroup()
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jButton1)
+                    .add(connect)
                     .add(Sair))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(search, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(TESTE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(search)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("User Mode"));
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("Manual");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(manual);
+        manual.setText("Manual");
+        manual.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                manualActionPerformed(evt);
             }
         });
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Temperatura");
-        jRadioButton2.setToolTipText("");
-        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(temp_modo);
+        temp_modo.setText("Temperatura");
+        temp_modo.setToolTipText("");
+        temp_modo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton2ActionPerformed(evt);
+                temp_modoActionPerformed(evt);
             }
         });
 
-        buttonGroup1.add(jRadioButton3);
-        jRadioButton3.setText("RainBow");
+        buttonGroup1.add(rainBow);
+        rainBow.setText("RainBow");
+        rainBow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rainBowActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -272,20 +272,20 @@ public class NewJFrame extends javax.swing.JFrame {
             .add(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jRadioButton1)
-                    .add(jRadioButton3)
-                    .add(jRadioButton2))
+                    .add(manual)
+                    .add(rainBow)
+                    .add(temp_modo))
                 .addContainerGap(235, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jRadioButton1)
+                .add(manual)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(jRadioButton2)
+                .add(temp_modo)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(jRadioButton3)
+                .add(rainBow)
                 .addContainerGap(136, Short.MAX_VALUE))
         );
 
@@ -304,20 +304,22 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Intensidade");
-        jLabel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jLabel1.setEnabled(false);
+        intensidade_label.setText("Intensidade");
+        intensidade_label.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        intensidade_label.setEnabled(false);
 
-        jButton3.setText("Escolher");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        escolher_cor.setText("Escolher");
+        escolher_cor.setEnabled(false);
+        escolher_cor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                escolher_corActionPerformed(evt);
             }
         });
 
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Cor");
-        jLabel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        cor_Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        cor_Label.setText("Cor");
+        cor_Label.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        cor_Label.setEnabled(false);
 
         org.jdesktop.layout.GroupLayout jPanel3Layout = new org.jdesktop.layout.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -327,14 +329,14 @@ public class NewJFrame extends javax.swing.JFrame {
                 .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jPanel3Layout.createSequentialGroup()
                         .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 64, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(intensidade_label, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 64, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(18, 18, 18))
                     .add(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
-                        .add(jLabel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 64, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(cor_Label, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 64, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jButton3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 83, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(escolher_cor, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 83, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jSlider1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(305, 305, 305))
         );
@@ -343,12 +345,12 @@ public class NewJFrame extends javax.swing.JFrame {
             .add(jPanel3Layout.createSequentialGroup()
                 .add(22, 22, 22)
                 .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(intensidade_label, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(jSlider1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jButton3)
-                    .add(jLabel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 29, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(escolher_cor)
+                    .add(cor_Label, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 29, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -414,17 +416,17 @@ public class NewJFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void connectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectActionPerformed
         
-    try {
-    connectAt(jTextField1.getText(), true);
-    
-    jSlider1.setEnabled(true);
-    } catch (IOException ex) {
-    Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-    }    
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+        try {
+        connectAt(jTextField1.getText(), true);
+
+        } catch (IOException ex) {
+        Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        grayConnect(true);
+
+    }//GEN-LAST:event_connectActionPerformed
 
     private void SairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SairActionPerformed
       
@@ -439,19 +441,20 @@ public class NewJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    private void manualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manualActionPerformed
+        System.out.println("Chegou aki");
+        modoManual();
+    }//GEN-LAST:event_manualActionPerformed
 
-    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+    private void temp_modoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_temp_modoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton2ActionPerformed
+    }//GEN-LAST:event_temp_modoActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void escolher_corActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_escolher_corActionPerformed
         
             
             cor = escolhe.showDialog(null, "Teste", cor); //block à espera da cor
@@ -471,7 +474,7 @@ public class NewJFrame extends javax.swing.JFrame {
         }
             cliente.temp.recomeçar();
        
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_escolher_corActionPerformed
 
     private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
             int [] rgb = new int[4];
@@ -510,6 +513,15 @@ public class NewJFrame extends javax.swing.JFrame {
     private void barraProgressoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_barraProgressoStateChanged
         
     }//GEN-LAST:event_barraProgressoStateChanged
+
+    private void rainBowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rainBowActionPerformed
+        
+        try {
+            cliente.sendData(cliente.setMode, 2);
+        } catch (IOException ex) {
+           System.out.println("Erro ao mandar o rainbow mode");
+        }
+    }//GEN-LAST:event_rainBowActionPerformed
 
     /**
      * @param args the command line arguments
@@ -567,15 +579,19 @@ public class NewJFrame extends javax.swing.JFrame {
     public void grayConnect(boolean check){
         
             jTextField1.setEditable(!check);
-            jButton1.setEnabled(!check);
+            connect.setEnabled(!check);
             Sair.setEnabled(check);
             jDialog1.setVisible(check);
     }
     
     protected void modoManual(){ //verifica se está ligado ao server e se Modo manual está ativo, se estiver ativa os restantes componentes
-      /*  if(cliente.isConnected() && jRadioButton1.isSelected()){
-            // unlock
-        }*/
+       
+        if(cliente.getisConnected() && manual.isSelected()){
+            escolher_cor.setEnabled(true);
+            cor_Label.setEnabled(true);
+            jSlider1.setEnabled(true);
+            intensidade_label.setEnabled(true);
+        }
   
     }
     
@@ -584,16 +600,15 @@ public class NewJFrame extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     static javax.swing.JButton Sair;
-    javax.swing.JProgressBar TESTE;
     public javax.swing.JProgressBar barraProgresso;
     javax.swing.ButtonGroup buttonGroup1;
-    static javax.swing.JButton jButton1;
+    static javax.swing.JButton connect;
+    javax.swing.JLabel cor_Label;
+    javax.swing.JButton escolher_cor;
+    javax.swing.JLabel intensidade_label;
     static javax.swing.JButton jButton2;
-    javax.swing.JButton jButton3;
     static javax.swing.JDialog jDialog1;
-    javax.swing.JLabel jLabel1;
     javax.swing.JLabel jLabel2;
-    javax.swing.JLabel jLabel3;
     javax.swing.JLabel jLabel4;
     javax.swing.JLabel jLabel5;
     javax.swing.JLabel jLabel6;
@@ -603,12 +618,12 @@ public class NewJFrame extends javax.swing.JFrame {
     javax.swing.JPanel jPanel2;
     javax.swing.JPanel jPanel3;
     javax.swing.JPanel jPanel4;
-    javax.swing.JRadioButton jRadioButton1;
-    javax.swing.JRadioButton jRadioButton2;
-    javax.swing.JRadioButton jRadioButton3;
     javax.swing.JSlider jSlider1;
     static javax.swing.JTextField jTextField1;
     javax.swing.JDialog janelaprogresso;
+    javax.swing.JRadioButton manual;
+    javax.swing.JRadioButton rainBow;
     static javax.swing.JButton search;
+    javax.swing.JRadioButton temp_modo;
     // End of variables declaration//GEN-END:variables
 }
