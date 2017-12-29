@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Component;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -66,6 +67,9 @@ public class Janela extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         comecar_OK = new javax.swing.JButton();
         cancelar_OK = new javax.swing.JButton();
+        janelaErroCor = new javax.swing.JDialog();
+        jLabel1 = new javax.swing.JLabel();
+        corOk = new javax.swing.JButton();
         tabMain = new javax.swing.JTabbedPane();
         Main = new javax.swing.JPanel();
         painelUmodo = new javax.swing.JPanel();
@@ -182,6 +186,43 @@ public class Janela extends javax.swing.JFrame {
                     .add(jLabel7)
                     .add(cancelar_OK))
                 .addContainerGap(22, Short.MAX_VALUE))
+        );
+
+        janelaErroCor.setMinimumSize(new java.awt.Dimension(342, 80));
+        janelaErroCor.setResizable(false);
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Não escolheu uma cor!");
+
+        corOk.setText("OK");
+        corOk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                corOkActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout janelaErroCorLayout = new org.jdesktop.layout.GroupLayout(janelaErroCor.getContentPane());
+        janelaErroCor.getContentPane().setLayout(janelaErroCorLayout);
+        janelaErroCorLayout.setHorizontalGroup(
+            janelaErroCorLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(janelaErroCorLayout.createSequentialGroup()
+                .add(janelaErroCorLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(janelaErroCorLayout.createSequentialGroup()
+                        .add(97, 97, 97)
+                        .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 148, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(janelaErroCorLayout.createSequentialGroup()
+                        .add(132, 132, 132)
+                        .add(corOk, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 73, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(97, Short.MAX_VALUE))
+        );
+        janelaErroCorLayout.setVerticalGroup(
+            janelaErroCorLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(janelaErroCorLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 29, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(corOk)
+                .addContainerGap())
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -422,7 +463,7 @@ public class Janela extends javax.swing.JFrame {
                         .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
-        tabMain.addTab("Principal", Main);
+        tabMain.addTab("tab3", Main);
 
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -452,7 +493,7 @@ public class Janela extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        tabMain.addTab("Grafico", tempRegisto);
+        tabMain.addTab("tab2", tempRegisto);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -506,11 +547,11 @@ public class Janela extends javax.swing.JFrame {
 
     private void manualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manualActionPerformed
         System.out.println("Chegou aki");
-        modoManual();
+        modoManual(true);
     }//GEN-LAST:event_manualActionPerformed
 
     private void temp_modoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_temp_modoActionPerformed
-        // TODO add your handling code here:
+        modoManual(false);
     }//GEN-LAST:event_temp_modoActionPerformed
 
     private void sucessoOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sucessoOkActionPerformed
@@ -519,8 +560,14 @@ public class Janela extends javax.swing.JFrame {
 
     private void escolher_corActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_escolher_corActionPerformed
         
-            
+          
             cor = escolhe.showDialog(null, "Escolha uma cor", cor); //block à espera da cor
+            
+            if(cor == null){
+                janelaErroCor.setVisible(true);
+                return;
+            }
+            
             int [] rgb = new int[4];
             rgb[0] = cor.getRed();
             rgb [1] = cor.getGreen();
@@ -578,7 +625,7 @@ public class Janela extends javax.swing.JFrame {
     }//GEN-LAST:event_barraProgressoStateChanged
 
     private void rainBowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rainBowActionPerformed
-        
+        modoManual(false);
         cliente.setParar(true);
         try {
             cliente.sendData(cliente.getSETMODE(), 2);
@@ -587,6 +634,10 @@ public class Janela extends javax.swing.JFrame {
         }
          cliente.getTemp().recomeçar();
     }//GEN-LAST:event_rainBowActionPerformed
+
+    private void corOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_corOkActionPerformed
+        janelaErroCor.setVisible(false);
+    }//GEN-LAST:event_corOkActionPerformed
 
     /**
      * @param args the command line arguments
@@ -649,19 +700,22 @@ public class Janela extends javax.swing.JFrame {
             connect.setEnabled(!check);
             Sair.setEnabled(check);
             janelaSucesso.setVisible(check);
+            modoManual(true);
     }
     
-    protected void modoManual(){ //verifica se está ligado ao server e se Modo manual está ativo, se estiver ativa os restantes componentes
-       
-        if(cliente.getisConnected() && manual.isSelected()){
-            escolher_cor.setEnabled(true);
-            cor_Label.setEnabled(true);
-            sliderTemp.setEnabled(true);
-            intensidade_label.setEnabled(true);
+    private void modoManual(boolean check){ //verifica se está ligado ao server e se Modo manual está ativo, se estiver ativa os restantes componentes
+                              
+        Component[] components = painelControlo.getComponents();
+        
+        for(int i = 0; i < components.length; i++) {
+                                 
+            components[i].setEnabled(check);
+        
         }
-  
-    }
-    
+        
+       
+  }
+   
 
 
     
@@ -673,14 +727,17 @@ public class Janela extends javax.swing.JFrame {
     javax.swing.JButton cancelar_OK;
     javax.swing.JButton comecar_OK;
     static javax.swing.JButton connect;
+    javax.swing.JButton corOk;
     javax.swing.JLabel cor_Label;
     javax.swing.JButton escolher_cor;
     javax.swing.JLabel intensidade_label;
+    javax.swing.JLabel jLabel1;
     javax.swing.JLabel jLabel2;
     javax.swing.JLabel jLabel6;
     javax.swing.JLabel jLabel7;
     javax.swing.JLabel jLabel8;
     javax.swing.JPanel jPanel1;
+    javax.swing.JDialog janelaErroCor;
     static javax.swing.JDialog janelaSucesso;
     javax.swing.JDialog janelaprogresso;
     javax.swing.JLabel labelTemp;

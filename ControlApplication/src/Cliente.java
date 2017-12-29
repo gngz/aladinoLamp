@@ -47,7 +47,7 @@ public class Cliente {
     private String Address;
     private int Port;
     private Janela frame;
-    final int PORT = 6442;//6442
+    final int PORT = 10101;//6442
     private boolean is_Connected = false;
     
     
@@ -163,11 +163,12 @@ public class Cliente {
         @Override
         public void run(){
             
-            while(!Thread.interrupted()){
+            while(!t.isInterrupted()){
                 try {
                     Thread.sleep(1000); // requests de 1 a 1 secs
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+                   System.out.println("Thread Halt");
+                   return;
                 }
                 try {
                     sendData(getRequestTemp());
@@ -186,7 +187,7 @@ public class Cliente {
                     System.out.printf("Temperatura: %.2f ºC \n",temper);
                     temperaturas.add(new Float(temper));
                     escreveFich();
-                    //setTempLabel(temper);
+                    setTempLabel(temper);
                     
                     
                 } catch (IOException ex) {
@@ -273,6 +274,7 @@ public class Cliente {
            System.out.println ("Erro ao fechar o socket"); //quando pressionar o botão disconnect.
         }
         System.out.println ("Cliente socket fechado"); //quando pressionar o botão disconnect.
+        frame.grayConnect(false);
     }
     
    public void setParar(boolean parar){
