@@ -37,9 +37,6 @@ public class Janela extends javax.swing.JFrame {
     Color cor = new Color(255,255,255);
     static Cliente cliente = null;
     static DataInputStream din;
-   //static PrintStream dout;
-    //static PrintStream dout;
-    //int [] rgb = new int[3];
     static DataOutputStream dout;
     static boolean teste = false;
     
@@ -59,16 +56,16 @@ public class Janela extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         janelaSucesso = new javax.swing.JDialog();
         sucessoOk = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        labelSucesso = new javax.swing.JLabel();
         janelaprogresso = new javax.swing.JDialog();
         barraProgresso = new javax.swing.JProgressBar();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        labelProgresso = new javax.swing.JLabel();
+        dispositivoFound = new javax.swing.JLabel();
+        dispositivoFound2 = new javax.swing.JLabel();
         comecar_OK = new javax.swing.JButton();
         cancelar_OK = new javax.swing.JButton();
         janelaErroCor = new javax.swing.JDialog();
-        jLabel1 = new javax.swing.JLabel();
+        LabelNoCor = new javax.swing.JLabel();
         corOk = new javax.swing.JButton();
         tabMain = new javax.swing.JTabbedPane();
         Main = new javax.swing.JPanel();
@@ -105,7 +102,7 @@ public class Janela extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Ligado ao servidor com sucesso");
+        labelSucesso.setText("Ligado ao servidor com sucesso");
 
         org.jdesktop.layout.GroupLayout janelaSucessoLayout = new org.jdesktop.layout.GroupLayout(janelaSucesso.getContentPane());
         janelaSucesso.getContentPane().setLayout(janelaSucessoLayout);
@@ -113,7 +110,7 @@ public class Janela extends javax.swing.JFrame {
             janelaSucessoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(janelaSucessoLayout.createSequentialGroup()
                 .addContainerGap(55, Short.MAX_VALUE)
-                .add(jLabel2)
+                .add(labelSucesso)
                 .add(49, 49, 49))
             .add(janelaSucessoLayout.createSequentialGroup()
                 .add(89, 89, 89)
@@ -124,7 +121,7 @@ public class Janela extends javax.swing.JFrame {
             janelaSucessoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, janelaSucessoLayout.createSequentialGroup()
                 .addContainerGap(53, Short.MAX_VALUE)
-                .add(jLabel2)
+                .add(labelSucesso)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(sucessoOk)
                 .add(53, 53, 53))
@@ -140,11 +137,11 @@ public class Janela extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setText("Progresso");
+        labelProgresso.setText("Progresso");
 
-        jLabel7.setText("Dispositivo Encontrado:");
+        dispositivoFound.setText("Dispositivo Encontrado:");
 
-        jLabel8.setText("N/A");
+        dispositivoFound2.setText("N/A");
 
         comecar_OK.setText("Começar");
 
@@ -159,13 +156,13 @@ public class Janela extends javax.swing.JFrame {
                 .add(22, 22, 22)
                 .add(janelaprogressoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(janelaprogressoLayout.createSequentialGroup()
-                        .add(jLabel6, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(labelProgresso, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(barraProgresso, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 242, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(janelaprogressoLayout.createSequentialGroup()
-                        .add(jLabel7)
+                        .add(dispositivoFound)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(jLabel8)
+                        .add(dispositivoFound2)
                         .add(18, 18, 18)
                         .add(comecar_OK)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
@@ -177,22 +174,23 @@ public class Janela extends javax.swing.JFrame {
             .add(janelaprogressoLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(janelaprogressoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(jLabel6, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+                    .add(labelProgresso, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
                     .add(barraProgresso, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(janelaprogressoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel8)
+                    .add(dispositivoFound2)
                     .add(comecar_OK)
-                    .add(jLabel7)
+                    .add(dispositivoFound)
                     .add(cancelar_OK))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
-        janelaErroCor.setMinimumSize(new java.awt.Dimension(342, 80));
+        janelaErroCor.setBounds(new java.awt.Rectangle(50, 50, 100, 100));
+        janelaErroCor.setMinimumSize(new java.awt.Dimension(342, 100));
         janelaErroCor.setResizable(false);
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Não escolheu uma cor!");
+        LabelNoCor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        LabelNoCor.setText("Não escolheu uma cor!");
 
         corOk.setText("OK");
         corOk.addActionListener(new java.awt.event.ActionListener() {
@@ -209,7 +207,7 @@ public class Janela extends javax.swing.JFrame {
                 .add(janelaErroCorLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(janelaErroCorLayout.createSequentialGroup()
                         .add(97, 97, 97)
-                        .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 148, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(LabelNoCor, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 148, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(janelaErroCorLayout.createSequentialGroup()
                         .add(132, 132, 132)
                         .add(corOk, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 73, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
@@ -219,7 +217,7 @@ public class Janela extends javax.swing.JFrame {
             janelaErroCorLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(janelaErroCorLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 29, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(LabelNoCor, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 29, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(corOk)
                 .addContainerGap())
@@ -235,6 +233,7 @@ public class Janela extends javax.swing.JFrame {
         manual.setSelected(true);
         buttonGroup1.add(manual);
         manual.setText("Manual");
+        manual.setEnabled(false);
         manual.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 manualActionPerformed(evt);
@@ -244,6 +243,7 @@ public class Janela extends javax.swing.JFrame {
         buttonGroup1.add(temp_modo);
         temp_modo.setText("Temperatura");
         temp_modo.setToolTipText("");
+        temp_modo.setEnabled(false);
         temp_modo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 temp_modoActionPerformed(evt);
@@ -252,6 +252,7 @@ public class Janela extends javax.swing.JFrame {
 
         buttonGroup1.add(rainBow);
         rainBow.setText("RainBow");
+        rainBow.setEnabled(false);
         rainBow.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rainBowActionPerformed(evt);
@@ -413,7 +414,7 @@ public class Janela extends javax.swing.JFrame {
         painelTemp.setBorder(javax.swing.BorderFactory.createTitledBorder("Temperatura"));
 
         labelTemp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelTemp.setText("jLabel5");
+        labelTemp.setText("N/A");
 
         org.jdesktop.layout.GroupLayout painelTempLayout = new org.jdesktop.layout.GroupLayout(painelTemp);
         painelTemp.setLayout(painelTempLayout);
@@ -548,9 +549,19 @@ public class Janela extends javax.swing.JFrame {
     private void manualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manualActionPerformed
         System.out.println("Chegou aki");
         modoManual(true);
+        try {
+            cliente.sendData(cliente.getSETMODE(), 0);
+        } catch (IOException ex) {
+            Logger.getLogger(Janela.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_manualActionPerformed
 
     private void temp_modoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_temp_modoActionPerformed
+        try {
+            cliente.sendData(cliente.getSETMODE(), 1);
+        } catch (IOException ex) {
+            Logger.getLogger(Janela.class.getName()).log(Level.SEVERE, null, ex);
+        }
         modoManual(false);
     }//GEN-LAST:event_temp_modoActionPerformed
 
@@ -560,17 +571,17 @@ public class Janela extends javax.swing.JFrame {
 
     private void escolher_corActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_escolher_corActionPerformed
         
-          
-            cor = escolhe.showDialog(null, "Escolha uma cor", cor); //block à espera da cor
+            Color cor2 = new Color(255,255,255);
+            cor2 = escolhe.showDialog(null, "Escolha uma cor", cor); //block à espera da cor
             
-            if(cor == null){
+            if(cor2 == null){
                 janelaErroCor.setVisible(true);
                 return;
             }
-            
+            cor = cor2;
             int [] rgb = new int[4];
             rgb[0] = cor.getRed();
-            rgb [1] = cor.getGreen();
+            rgb[1] = cor.getGreen();
             rgb[2] = cor.getBlue();
             rgb[3] = sliderTemp.getValue();
             
@@ -588,6 +599,7 @@ public class Janela extends javax.swing.JFrame {
 
     private void sliderTempStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sliderTempStateChanged
             int [] rgb = new int[4];
+
             rgb[0] = cor.getRed();
             rgb[1] = cor.getGreen();
             rgb[2] = cor.getBlue();
@@ -691,6 +703,11 @@ public class Janela extends javax.swing.JFrame {
     static protected void connectAt(String Address, boolean tipodeconnect) throws IOException, TimeoutException{
         
         cliente = new Cliente(Address, 10101, tipodeconnect, frame);
+        try {
+            cliente.sendData(cliente.getSETMODE(), 0);
+        } catch (IOException ex) {
+            System.out.println("Erro no envio");
+        }
  
     }
             
@@ -700,8 +717,13 @@ public class Janela extends javax.swing.JFrame {
             connect.setEnabled(!check);
             Sair.setEnabled(check);
             janelaSucesso.setVisible(check);
+            search.setEnabled(!check);
+            rainBow.setEnabled(check);
+            manual.setEnabled(check);
+            temp_modo.setEnabled(check);
             modoManual(true);
-    }
+
+ }
     
     private void modoManual(boolean check){ //verifica se está ligado ao server e se Modo manual está ativo, se estiver ativa os restantes componentes
                               
@@ -720,6 +742,7 @@ public class Janela extends javax.swing.JFrame {
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    javax.swing.JLabel LabelNoCor;
     javax.swing.JPanel Main;
     static javax.swing.JButton Sair;
     public javax.swing.JProgressBar barraProgresso;
@@ -729,17 +752,16 @@ public class Janela extends javax.swing.JFrame {
     static javax.swing.JButton connect;
     javax.swing.JButton corOk;
     javax.swing.JLabel cor_Label;
+    javax.swing.JLabel dispositivoFound;
+    javax.swing.JLabel dispositivoFound2;
     javax.swing.JButton escolher_cor;
     javax.swing.JLabel intensidade_label;
-    javax.swing.JLabel jLabel1;
-    javax.swing.JLabel jLabel2;
-    javax.swing.JLabel jLabel6;
-    javax.swing.JLabel jLabel7;
-    javax.swing.JLabel jLabel8;
     javax.swing.JPanel jPanel1;
     javax.swing.JDialog janelaErroCor;
     static javax.swing.JDialog janelaSucesso;
     javax.swing.JDialog janelaprogresso;
+    javax.swing.JLabel labelProgresso;
+    javax.swing.JLabel labelSucesso;
     javax.swing.JLabel labelTemp;
     javax.swing.JRadioButton manual;
     javax.swing.JPanel painelConnect;

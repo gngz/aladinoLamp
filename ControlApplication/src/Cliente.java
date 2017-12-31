@@ -33,6 +33,7 @@ import java.net.SocketTimeoutException;
 public class Cliente {
 
      //meter encapsulamento
+    public final byte TEMP = 1;
     private final byte SETDATE = 4;
     private final byte SETTIME = 5;
     private final byte SETCOLOR = 3;
