@@ -1,4 +1,3 @@
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.io.DataInputStream;
@@ -15,15 +14,6 @@ import java.util.logging.Logger;
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.JFreeChart;
-import org.jfree.ui.ApplicationFrame;
-import org.jfree.ui.RefineryUtilities;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.category.DefaultCategoryDataset;
-import java.util.ArrayList;
-import org.jfree.chart.plot.CategoryPlot;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -49,16 +39,9 @@ public class Janela extends javax.swing.JFrame {
     static DataInputStream din;
     static DataOutputStream dout;
     static boolean teste = false;
-    static JFreeChart grafico = null;
-    static ChartPanel chartPanel = null;
+    
     public Janela() {
         initComponents();
-        JFreeChart grafico = ChartFactory.createLineChart("Temperaturas","Temperatura","Tempo",null,PlotOrientation.HORIZONTAL,true,true,false);
-        ChartPanel chartPanel = new ChartPanel( grafico );
-        chartPanel.setPreferredSize( new java.awt.Dimension(200 , 200));
-        jPanel1.removeAll();
-        jPanel1.add(chartPanel, BorderLayout.CENTER);
-        
     }
 
     /**
@@ -84,7 +67,6 @@ public class Janela extends javax.swing.JFrame {
         janelaErroCor = new javax.swing.JDialog();
         LabelNoCor = new javax.swing.JLabel();
         corOk = new javax.swing.JButton();
-        lineChart3D11 = new demo.orsoncharts.LineChart3D1();
         tabMain = new javax.swing.JTabbedPane();
         Main = new javax.swing.JPanel();
         painelUmodo = new javax.swing.JPanel();
@@ -471,19 +453,29 @@ public class Janela extends javax.swing.JFrame {
                 .addContainerGap()
                 .add(MainLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(MainLayout.createSequentialGroup()
-                        .add(painelConnect, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(painelUmodo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(MainLayout.createSequentialGroup()
                         .add(painelControlo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(18, 18, 18)
-                        .add(painelTemp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .add(painelTemp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(0, 0, Short.MAX_VALUE))
+                    .add(MainLayout.createSequentialGroup()
+                        .add(painelConnect, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(painelUmodo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         tabMain.addTab("tab3", Main);
 
-        jPanel1.setLayout(new java.awt.BorderLayout());
+        org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 732, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 334, Short.MAX_VALUE)
+        );
 
         org.jdesktop.layout.GroupLayout tempRegistoLayout = new org.jdesktop.layout.GroupLayout(tempRegisto);
         tempRegisto.setLayout(tempRegistoLayout);
@@ -522,15 +514,6 @@ public class Janela extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void setValoresGraph(DefaultCategoryDataset data){
-        jPanel1.removeAll();
-        grafico = ChartFactory.createLineChart("Temperaturas","Temperatura","Tempo",data,PlotOrientation.VERTICAL,true,true,false);
-        ChartPanel chartPanel = new ChartPanel( grafico );
-        chartPanel.setPreferredSize( new java.awt.Dimension(200 , 200));
-        jPanel1.add(chartPanel, BorderLayout.CENTER);
-        jPanel1.updateUI();
-    }
-    
     private void connectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectActionPerformed
         
         try {
@@ -725,9 +708,6 @@ public class Janela extends javax.swing.JFrame {
         } catch (IOException ex) {
             System.out.println("Erro no envio");
         }
-         catch (NullPointerException ex){
-             System.out.println("no data to send");
-         }
  
     }
             
@@ -753,7 +733,9 @@ public class Janela extends javax.swing.JFrame {
                                  
             components[i].setEnabled(check);
         
-        }     
+        }
+        
+       
   }
    
 
@@ -774,14 +756,13 @@ public class Janela extends javax.swing.JFrame {
     javax.swing.JLabel dispositivoFound2;
     javax.swing.JButton escolher_cor;
     javax.swing.JLabel intensidade_label;
-    static javax.swing.JPanel jPanel1;
+    javax.swing.JPanel jPanel1;
     javax.swing.JDialog janelaErroCor;
     static javax.swing.JDialog janelaSucesso;
     javax.swing.JDialog janelaprogresso;
     javax.swing.JLabel labelProgresso;
     javax.swing.JLabel labelSucesso;
     javax.swing.JLabel labelTemp;
-    demo.orsoncharts.LineChart3D1 lineChart3D11;
     javax.swing.JRadioButton manual;
     javax.swing.JPanel painelConnect;
     javax.swing.JPanel painelControlo;
