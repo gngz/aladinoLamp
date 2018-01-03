@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import java.net.SocketTimeoutException;
+import org.jfree.data.category.DefaultCategoryDataset;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -100,7 +101,8 @@ public class Cliente {
         File arquivo = null;
         FileWriter fw = null; //para a escrita no ficheiro
         BufferedWriter bw = null;
-                      
+        DefaultCategoryDataset dataSet =  new DefaultCategoryDataset();   
+        double i = 1;
         
         public TempThread(DataInputStream din, DataOutputStream dout) throws IOException 
         {
@@ -111,6 +113,14 @@ public class Cliente {
              temperaturas = new ArrayList<Float>();
              initializaFile("temperatura");
         }
+        
+     private DefaultCategoryDataset createDataset(double temperatura) {
+      
+      dataSet.addValue(temperatura, "", ""+(int)i);
+      
+      
+       return dataSet;
+  }  
         
         private void initializaFile(String nome) throws IOException{
             
@@ -181,12 +191,15 @@ public class Cliente {
                     tempe[2] = din.read();
                     
                     float temper = tempe[1] + ((float) tempe[2]/100);
+                    double temper2 = tempe[1] + ((double) tempe[2]/100);
                     if(tempe[0] == 1)
                         temper = temper * -1;
                     
-                    
+                    i = i+ 0.5;
                     System.out.printf("Temperatura: %.2f ºC \n",temper);
                     temperaturas.add(new Float(temper));
+                    frame.setValoresGraph(createDataset(new Double(temper2)));
+                 
                     escreveFich();
                     setTempLabel(temper);
                     
