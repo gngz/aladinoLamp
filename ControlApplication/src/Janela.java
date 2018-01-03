@@ -23,6 +23,9 @@ import org.jfree.ui.RefineryUtilities;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import java.util.ArrayList;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JProgressBar;
 import org.jfree.chart.plot.CategoryPlot;
 
 /*
@@ -42,23 +45,27 @@ public class Janela extends javax.swing.JFrame {
      */
     
     //Comandos
-    private static Janela frame;
-    JColorChooser escolhe = new JColorChooser();
-    Color cor = new Color(255,255,255);
-    static Cliente cliente = null;
-    static DataInputStream din;
-    static DataOutputStream dout;
-    static boolean teste = false;
-    static JFreeChart grafico = null;
-    static ChartPanel chartPanel = null;
+    public static Janela frame;
+    private JColorChooser escolhe = new JColorChooser();
+    private Color cor = new Color(255,255,255);
+    private static Cliente cliente = null;
+    private static DataInputStream din;
+    private static DataOutputStream dout;
+    private static volatile boolean botaoSearch = false;
+    private static JFreeChart grafico = null;
+    private static ChartPanel chartPanel = null;
+    private ThreadTest t = null;
+    private boolean botao_cancelar_pressionado = false;
     public Janela() {
+        
         initComponents();
         JFreeChart grafico = ChartFactory.createLineChart("Temperaturas","Temperatura","Tempo",null,PlotOrientation.HORIZONTAL,true,true,false);
         ChartPanel chartPanel = new ChartPanel( grafico );
         chartPanel.setPreferredSize( new java.awt.Dimension(200 , 200));
         jPanel1.removeAll();
         jPanel1.add(chartPanel, BorderLayout.CENTER);
-        
+        t = new ThreadTest();
+        t.start();
     }
 
     /**
@@ -79,12 +86,10 @@ public class Janela extends javax.swing.JFrame {
         labelProgresso = new javax.swing.JLabel();
         dispositivoFound = new javax.swing.JLabel();
         dispositivoFound2 = new javax.swing.JLabel();
-        comecar_OK = new javax.swing.JButton();
         cancelar_OK = new javax.swing.JButton();
         janelaErroCor = new javax.swing.JDialog();
         LabelNoCor = new javax.swing.JLabel();
         corOk = new javax.swing.JButton();
-        lineChart3D11 = new demo.orsoncharts.LineChart3D1();
         tabMain = new javax.swing.JTabbedPane();
         Main = new javax.swing.JPanel();
         painelUmodo = new javax.swing.JPanel();
@@ -146,9 +151,10 @@ public class Janela extends javax.swing.JFrame {
         );
 
         janelaprogresso.setLocationByPlatform(true);
-        janelaprogresso.setMinimumSize(new java.awt.Dimension(346, 100));
+        janelaprogresso.setMinimumSize(new java.awt.Dimension(393, 100));
         janelaprogresso.setResizable(false);
 
+        barraProgresso.setMaximum(255);
         barraProgresso.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 barraProgressoStateChanged(evt);
@@ -161,10 +167,13 @@ public class Janela extends javax.swing.JFrame {
 
         dispositivoFound2.setText("N/A");
 
-        comecar_OK.setText("Começar");
-
         cancelar_OK.setText("Cancelar");
         cancelar_OK.setEnabled(false);
+        cancelar_OK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelar_OKActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout janelaprogressoLayout = new org.jdesktop.layout.GroupLayout(janelaprogresso.getContentPane());
         janelaprogresso.getContentPane().setLayout(janelaprogressoLayout);
@@ -181,9 +190,7 @@ public class Janela extends javax.swing.JFrame {
                         .add(dispositivoFound)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(dispositivoFound2)
-                        .add(18, 18, 18)
-                        .add(comecar_OK)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(103, 103, 103)
                         .add(cancelar_OK)))
                 .addContainerGap(52, Short.MAX_VALUE))
         );
@@ -197,7 +204,6 @@ public class Janela extends javax.swing.JFrame {
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(janelaprogressoLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(dispositivoFound2)
-                    .add(comecar_OK)
                     .add(dispositivoFound)
                     .add(cancelar_OK))
                 .addContainerGap(22, Short.MAX_VALUE))
@@ -329,6 +335,7 @@ public class Janela extends javax.swing.JFrame {
 
         search.setText("Search");
         search.setActionCommand("Entrar");
+        search.setMinimumSize(new java.awt.Dimension(90, 23));
         search.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 searchStateChanged(evt);
@@ -349,7 +356,7 @@ public class Janela extends javax.swing.JFrame {
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(painelConnectLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(search, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(connect, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .add(connect, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(Sair)
                 .add(0, 0, Short.MAX_VALUE))
@@ -362,7 +369,7 @@ public class Janela extends javax.swing.JFrame {
                     .add(connect)
                     .add(Sair))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(search)
+                .add(search, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -481,7 +488,7 @@ public class Janela extends javax.swing.JFrame {
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tabMain.addTab("tab3", Main);
+        tabMain.addTab("Principal", Main);
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
@@ -502,7 +509,7 @@ public class Janela extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        tabMain.addTab("tab2", tempRegisto);
+        tabMain.addTab("Grafico", tempRegisto);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -522,6 +529,49 @@ public class Janela extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public JProgressBar getbarraProgresso(){
+       return barraProgresso;
+    }
+    
+    public JDialog getjanelaProgresso(){
+        return janelaprogresso;
+    }
+    
+    public JLabel getlabelTemp(){
+        return labelTemp;
+    }
+    
+    public boolean getcancelarProgresso(){
+        return botao_cancelar_pressionado;
+    }
+    
+    public void setcancelarProgresso(boolean bool){
+        botao_cancelar_pressionado = bool;
+    }
+    
+    class ThreadTest extends Thread {
+	
+        public ThreadTest() {
+		super();
+	}
+ 
+	public void run() {
+            while(true){
+                
+                if(botaoSearch){
+                    try {
+                        connectAt("",false);
+                    } catch (IOException ex) {
+                        Logger.getLogger(Janela.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (TimeoutException ex) {
+                        Logger.getLogger(Janela.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+            }
+        }
+    }
+    
     public void setValoresGraph(DefaultCategoryDataset data){
         jPanel1.removeAll();
         grafico = ChartFactory.createLineChart("Temperaturas","Temperatura","Tempo",data,PlotOrientation.VERTICAL,true,true,false);
@@ -556,7 +606,7 @@ public class Janela extends javax.swing.JFrame {
         cliente = null;
         System.out.println("SAIR PRESSIONADO");
         grayConnect(false);
-
+        modoManual(false);
     }//GEN-LAST:event_SairActionPerformed
 
     private void textConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textConnectActionPerformed
@@ -564,7 +614,7 @@ public class Janela extends javax.swing.JFrame {
     }//GEN-LAST:event_textConnectActionPerformed
 
     private void manualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manualActionPerformed
-        System.out.println("Chegou aki");
+
         modoManual(true);
         try {
             cliente.sendData(cliente.getSETMODE(), 0);
@@ -642,7 +692,8 @@ public class Janela extends javax.swing.JFrame {
 
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
         janelaprogresso.setVisible(true);
-        teste = true;
+        botaoSearch = true;
+        cancelar_OK.setEnabled(true);
     }//GEN-LAST:event_searchActionPerformed
 
     private void searchStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_searchStateChanged
@@ -652,7 +703,7 @@ public class Janela extends javax.swing.JFrame {
     private void barraProgressoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_barraProgressoStateChanged
         
     }//GEN-LAST:event_barraProgressoStateChanged
-
+  
     private void rainBowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rainBowActionPerformed
         modoManual(false);
         cliente.setParar(true);
@@ -668,6 +719,12 @@ public class Janela extends javax.swing.JFrame {
         janelaErroCor.setVisible(false);
     }//GEN-LAST:event_corOkActionPerformed
 
+    private void cancelar_OKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelar_OKActionPerformed
+        janelaprogresso.setVisible(false);
+        botao_cancelar_pressionado = true;
+    }//GEN-LAST:event_cancelar_OKActionPerformed
+
+    
     /**
      * @param args the command line arguments
      */
@@ -703,18 +760,6 @@ public class Janela extends javax.swing.JFrame {
                frame.setVisible(true);
             }
         });
-        while(true){
-           
-        if(teste){
-           try{
-               connectAt("",false);
-             } 
-           catch (TimeoutException ex) {
-                Logger.getLogger(Janela.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-        
  }  
        
     static protected void connectAt(String Address, boolean tipodeconnect) throws IOException, TimeoutException{
@@ -724,9 +769,11 @@ public class Janela extends javax.swing.JFrame {
             cliente.sendData(cliente.getSETMODE(), 0);
         } catch (IOException ex) {
             System.out.println("Erro no envio");
+            botaoSearch = false;
         }
          catch (NullPointerException ex){
              System.out.println("no data to send");
+            botaoSearch = false;
          }
  
     }
@@ -741,7 +788,7 @@ public class Janela extends javax.swing.JFrame {
             rainBow.setEnabled(check);
             manual.setEnabled(check);
             temp_modo.setEnabled(check);
-            modoManual(true);
+            modoManual(check);
 
  }
     
@@ -755,10 +802,7 @@ public class Janela extends javax.swing.JFrame {
         
         }     
   }
-   
 
-
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     javax.swing.JLabel LabelNoCor;
     javax.swing.JPanel Main;
@@ -766,7 +810,6 @@ public class Janela extends javax.swing.JFrame {
     public javax.swing.JProgressBar barraProgresso;
     javax.swing.ButtonGroup buttonGroup1;
     javax.swing.JButton cancelar_OK;
-    javax.swing.JButton comecar_OK;
     static javax.swing.JButton connect;
     javax.swing.JButton corOk;
     javax.swing.JLabel cor_Label;
@@ -781,7 +824,6 @@ public class Janela extends javax.swing.JFrame {
     javax.swing.JLabel labelProgresso;
     javax.swing.JLabel labelSucesso;
     javax.swing.JLabel labelTemp;
-    demo.orsoncharts.LineChart3D1 lineChart3D11;
     javax.swing.JRadioButton manual;
     javax.swing.JPanel painelConnect;
     javax.swing.JPanel painelControlo;

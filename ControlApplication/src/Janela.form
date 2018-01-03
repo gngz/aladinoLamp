@@ -73,7 +73,7 @@
       <Properties>
         <Property name="locationByPlatform" type="boolean" value="true"/>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[346, 100]"/>
+          <Dimension value="[393, 100]"/>
         </Property>
         <Property name="resizable" type="boolean" value="false"/>
       </Properties>
@@ -93,9 +93,7 @@
                           <Component id="dispositivoFound" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="dispositivoFound2" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="comecar_OK" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="103" max="-2" attributes="0"/>
                           <Component id="cancelar_OK" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -114,7 +112,6 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="dispositivoFound2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="comecar_OK" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="dispositivoFound" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="cancelar_OK" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -125,6 +122,9 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JProgressBar" name="barraProgresso">
+          <Properties>
+            <Property name="maximum" type="int" value="255"/>
+          </Properties>
           <Events>
             <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="barraProgressoStateChanged"/>
           </Events>
@@ -147,16 +147,14 @@
             <Property name="text" type="java.lang.String" value="N/A"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="comecar_OK">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Come&#xe7;ar"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JButton" name="cancelar_OK">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cancelar"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelar_OKActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -218,8 +216,6 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="demo.orsoncharts.LineChart3D1" name="lineChart3D11">
-    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
@@ -419,7 +415,7 @@
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="search" max="32767" attributes="0"/>
-                              <Component id="connect" max="32767" attributes="0"/>
+                              <Component id="connect" pref="90" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="Sair" min="-2" max="-2" attributes="0"/>
@@ -482,6 +478,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Search"/>
                     <Property name="actionCommand" type="java.lang.String" value="Entrar"/>
+                    <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[90, 23]"/>
+                    </Property>
                   </Properties>
                   <Events>
                     <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="searchStateChanged"/>

@@ -118,7 +118,6 @@ public class Cliente {
       
       dataSet.addValue(temperatura, "", ""+(int)i);
       
-      
        return dataSet;
   }  
         
@@ -164,7 +163,7 @@ public class Cliente {
                             String temperatura = new String();
                             
                             temperatura = String.format("%.2f ºC", temper);
-                            frame.labelTemp.setText(temperatura);
+                            frame.getlabelTemp().setText(temperatura);
                         }
                     }
                     ) ;
@@ -232,6 +231,9 @@ public class Cliente {
                      
                 if(!findAddr()){
                     System.out.println("Nao encontrado");
+                    setbarraProgresso(0);
+                    frame.setcancelarProgresso(false);
+                    frame.getjanelaProgresso().setVisible(false);
                     return false;
                 }
                 
@@ -347,24 +349,27 @@ public class Cliente {
        
  }
 
-    public boolean findAddr() throws UnknownHostException, IOException{ // ALPHA MUITO ALPHA
+    public boolean findAddr() throws UnknownHostException, IOException{ 
         InetAddress localhost = InetAddress.getLocalHost();
         
         byte[] ip = localhost.getAddress();
         
         for (int i = 1; i <= 254; i++) //redes 255.255.255.0 /24
         {
+            if(frame.getcancelarProgresso()){
+                return false;
+            }
             setbarraProgresso(i); // atualiza o UI
             ip[3] = (byte)i;
             InetAddress address = InetAddress.getByAddress(ip);
-            if (address.isReachable(100))
+            if (address.isReachable(10))
             {
                 System.out.println("Encontrou o endereço na rede: "+address.getHostAddress());
                 Address = address.getHostAddress();
                 try
                 {
                 cliente = new Socket();
-                cliente.connect(new InetSocketAddress(Address, Port), 100); // sobrepoem o endereço do construtor pelo address do findAddr
+                cliente.connect(new InetSocketAddress(Address, Port), 10); // sobrepoem o endereço do construtor pelo address do findAddr
                 is_Connected = true;
                 return true;
                 } 
@@ -378,6 +383,14 @@ public class Cliente {
     }
     
     public void setbarraProgresso(int valor){
-      frame.barraProgresso.setValue(valor);
+             
+    SwingUtilities.invokeLater(new Runnable()
+                    {
+                        public void run()
+                        {
+                            frame.getbarraProgresso().setValue(valor);
+                        }
+                    }
+                    ) ;    
     }     
 }
