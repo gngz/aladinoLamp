@@ -15,8 +15,8 @@
 #endif
 
 #ifdef HOME_TEST
-#define WIFINAME ""
-#define WIFIPASS ""
+#define WIFINAME "SSID"
+#define WIFIPASS "PWD"
 #endif
 
 
@@ -102,30 +102,30 @@ void setup() {
 
 	if (rtc.detect())
 	{
-		#ifdef DEBUG
+#ifdef DEBUG
 		Serial.println("RTC Detetado!");
-	#endif
+#endif
 		rtc_present = true;
 	}
-	#ifdef DEBUG
+#ifdef DEBUG
 	else
 	{
 		Serial.println("RTC não Detetado!");
 	}
-	#endif
+#endif
 
 
 	if (temp.detect()) {
-		#ifdef DEBUG
+#ifdef DEBUG
 		Serial.println("Sensor Temperatura encontrado!");
-	#endif
+#endif
 		temp_present = true;
 	}
-	#ifdef DEBUG
+#ifdef DEBUG
 	else {
 		Serial.println("Sensor Temperatura não encontrado!");
 	}
-	#endif
+#endif
 
 	// WiFi.disconnectAP();
 	//WiFi.softAP("aladinoLamp", "genioslampada");
@@ -144,10 +144,12 @@ void setup() {
 
 	led.setColor(0, 255, 0, 100);
 
+#ifdef DEBUG
 	Serial.println();
 	Serial.println("Connected!");
 	Serial.print("IP Address:");
 	Serial.println(WiFi.localIP());
+#endif
 
 
 	temp.setConfig();
