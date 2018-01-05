@@ -54,7 +54,7 @@ public class Janela extends javax.swing.JFrame {
     private static volatile boolean botaoSearch = false;
     private static JFreeChart grafico = null;
     private static ChartPanel chartPanel = null;
-    private ThreadTest t = null;
+    private ThreadSearch t = null;
     private boolean botao_cancelar_pressionado = false;
     public Janela() {
         
@@ -64,7 +64,7 @@ public class Janela extends javax.swing.JFrame {
         chartPanel.setPreferredSize( new java.awt.Dimension(200 , 200));
         jPanel1.removeAll();
         jPanel1.add(chartPanel, BorderLayout.CENTER);
-        t = new ThreadTest();
+        t = new ThreadSearch();
         t.start();
     }
 
@@ -108,8 +108,26 @@ public class Janela extends javax.swing.JFrame {
         cor_Label = new javax.swing.JLabel();
         painelTemp = new javax.swing.JPanel();
         labelTemp = new javax.swing.JLabel();
+        painelLogs = new javax.swing.JPanel();
+        logsList = new java.awt.List();
         tempRegisto = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
+        wifiConfPanel = new javax.swing.JPanel();
+        checkbox1 = new java.awt.Checkbox();
+        checkbox2 = new java.awt.Checkbox();
+        textField1 = new java.awt.TextField();
+        textField2 = new java.awt.TextField();
+        label1 = new java.awt.Label();
+        label2 = new java.awt.Label();
+        checkbox3 = new java.awt.Checkbox();
+        checkbox4 = new java.awt.Checkbox();
+        textField3 = new java.awt.TextField();
+        textField4 = new java.awt.TextField();
+        textField5 = new java.awt.TextField();
+        jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         janelaSucesso.setBounds(new java.awt.Rectangle(50, 50, 100, 100));
         janelaSucesso.setFont(new java.awt.Font("18thCentury", 0, 10)); // NOI18N
@@ -248,6 +266,7 @@ public class Janela extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         tabMain.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tabMain.setName(""); // NOI18N
@@ -447,14 +466,32 @@ public class Janela extends javax.swing.JFrame {
             painelTempLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(painelTempLayout.createSequentialGroup()
                 .add(labelTemp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 72, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(0, 289, Short.MAX_VALUE))
+                .add(0, 0, Short.MAX_VALUE))
         );
         painelTempLayout.setVerticalGroup(
             painelTempLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(painelTempLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(labelTemp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 52, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        painelLogs.setBorder(javax.swing.BorderFactory.createTitledBorder("Logs"));
+
+        org.jdesktop.layout.GroupLayout painelLogsLayout = new org.jdesktop.layout.GroupLayout(painelLogs);
+        painelLogs.setLayout(painelLogsLayout);
+        painelLogsLayout.setHorizontalGroup(
+            painelLogsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(painelLogsLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(logsList, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        painelLogsLayout.setVerticalGroup(
+            painelLogsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(painelLogsLayout.createSequentialGroup()
+                .add(logsList, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 90, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(0, 10, Short.MAX_VALUE))
         );
 
         org.jdesktop.layout.GroupLayout MainLayout = new org.jdesktop.layout.GroupLayout(Main);
@@ -467,9 +504,10 @@ public class Janela extends javax.swing.JFrame {
                     .add(painelConnect, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(painelUmodo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(18, 18, 18)
-                .add(MainLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(MainLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(painelControlo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 373, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(painelTemp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(painelTemp, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(painelLogs, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         MainLayout.setVerticalGroup(
@@ -484,11 +522,13 @@ public class Janela extends javax.swing.JFrame {
                     .add(MainLayout.createSequentialGroup()
                         .add(painelControlo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(18, 18, 18)
-                        .add(painelTemp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(painelTemp, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 82, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(painelLogs, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tabMain.addTab("Principal", Main);
+        tabMain.addTab("Main", Main);
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
@@ -510,6 +550,106 @@ public class Janela extends javax.swing.JFrame {
         );
 
         tabMain.addTab("Grafico", tempRegisto);
+
+        checkbox1.setLabel("AP");
+
+        checkbox2.setLabel("Station");
+
+        label1.setText("SSID");
+
+        label2.setName("Password"); // NOI18N
+        label2.setText("Password");
+
+        checkbox3.setLabel("DHCP");
+
+        checkbox4.setLabel("IP Fixo");
+
+        jButton1.setText("OK");
+
+        jLabel1.setText("Gateway");
+
+        jLabel2.setText("IP");
+
+        jLabel3.setText("Mascara");
+
+        org.jdesktop.layout.GroupLayout wifiConfPanelLayout = new org.jdesktop.layout.GroupLayout(wifiConfPanel);
+        wifiConfPanel.setLayout(wifiConfPanelLayout);
+        wifiConfPanelLayout.setHorizontalGroup(
+            wifiConfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(wifiConfPanelLayout.createSequentialGroup()
+                .add(37, 37, 37)
+                .add(wifiConfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(wifiConfPanelLayout.createSequentialGroup()
+                        .add(checkbox3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(checkbox4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(wifiConfPanelLayout.createSequentialGroup()
+                        .add(wifiConfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(wifiConfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                .add(checkbox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(wifiConfPanelLayout.createSequentialGroup()
+                                    .add(label1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                    .add(textField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 105, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                            .add(wifiConfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                                .add(wifiConfPanelLayout.createSequentialGroup()
+                                    .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 51, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .add(textField5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 125, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                .add(org.jdesktop.layout.GroupLayout.TRAILING, wifiConfPanelLayout.createSequentialGroup()
+                                    .add(jLabel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 43, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                    .add(textField3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 125, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                .add(org.jdesktop.layout.GroupLayout.TRAILING, wifiConfPanelLayout.createSequentialGroup()
+                                    .add(jLabel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 51, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                    .add(18, 18, 18)
+                                    .add(textField4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 125, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                        .add(25, 25, 25)
+                        .add(wifiConfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(wifiConfPanelLayout.createSequentialGroup()
+                                .add(label2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(1, 1, 1)
+                                .add(textField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 104, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(checkbox2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jButton1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 178, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(323, Short.MAX_VALUE))
+        );
+        wifiConfPanelLayout.setVerticalGroup(
+            wifiConfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(wifiConfPanelLayout.createSequentialGroup()
+                .add(39, 39, 39)
+                .add(wifiConfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(checkbox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(checkbox2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(34, 34, 34)
+                .add(wifiConfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(textField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(textField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(label1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(label2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(63, 63, 63)
+                .add(wifiConfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(checkbox3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(checkbox4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(30, 30, 30)
+                .add(wifiConfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(textField3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 32, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 27, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(wifiConfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(wifiConfPanelLayout.createSequentialGroup()
+                        .add(textField4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 32, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(textField5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 32, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(jButton1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 65, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(wifiConfPanelLayout.createSequentialGroup()
+                        .add(jLabel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(10, 10, 10)
+                        .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 32, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(30, Short.MAX_VALUE))
+        );
+
+        tabMain.addTab("WifiConf", wifiConfPanel);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -549,9 +689,9 @@ public class Janela extends javax.swing.JFrame {
         botao_cancelar_pressionado = bool;
     }
     
-    class ThreadTest extends Thread {
+    class ThreadSearch extends Thread {
 	
-        public ThreadTest() {
+        public ThreadSearch() {
 		super();
 	}
  
@@ -677,7 +817,7 @@ public class Janela extends javax.swing.JFrame {
                  cliente.setParar(true);
             }
             catch (Exception  ex) {
-            System.out.println("Erro ao enviar dados de cor");
+            System.out.println("Erro no setter Parar");
             }
     
             try{
@@ -687,7 +827,7 @@ public class Janela extends javax.swing.JFrame {
          catch (IOException ex) {
             System.out.println("Erro ao enviar dados de cor");
         }
-            cliente.getTemp().recomeçar();
+           //cliente.getTemp().recomeçar();
     }//GEN-LAST:event_sliderTempStateChanged
 
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
@@ -810,6 +950,10 @@ public class Janela extends javax.swing.JFrame {
     public javax.swing.JProgressBar barraProgresso;
     javax.swing.ButtonGroup buttonGroup1;
     javax.swing.JButton cancelar_OK;
+    java.awt.Checkbox checkbox1;
+    java.awt.Checkbox checkbox2;
+    java.awt.Checkbox checkbox3;
+    java.awt.Checkbox checkbox4;
     static javax.swing.JButton connect;
     javax.swing.JButton corOk;
     javax.swing.JLabel cor_Label;
@@ -817,16 +961,24 @@ public class Janela extends javax.swing.JFrame {
     javax.swing.JLabel dispositivoFound2;
     javax.swing.JButton escolher_cor;
     javax.swing.JLabel intensidade_label;
+    javax.swing.JButton jButton1;
+    javax.swing.JLabel jLabel1;
+    javax.swing.JLabel jLabel2;
+    javax.swing.JLabel jLabel3;
     static javax.swing.JPanel jPanel1;
     javax.swing.JDialog janelaErroCor;
     static javax.swing.JDialog janelaSucesso;
     javax.swing.JDialog janelaprogresso;
+    java.awt.Label label1;
+    java.awt.Label label2;
     javax.swing.JLabel labelProgresso;
     javax.swing.JLabel labelSucesso;
     javax.swing.JLabel labelTemp;
+    java.awt.List logsList;
     javax.swing.JRadioButton manual;
     javax.swing.JPanel painelConnect;
     javax.swing.JPanel painelControlo;
+    javax.swing.JPanel painelLogs;
     javax.swing.JPanel painelTemp;
     javax.swing.JPanel painelUmodo;
     javax.swing.JRadioButton rainBow;
@@ -837,5 +989,11 @@ public class Janela extends javax.swing.JFrame {
     javax.swing.JPanel tempRegisto;
     javax.swing.JRadioButton temp_modo;
     static javax.swing.JTextField textConnect;
+    java.awt.TextField textField1;
+    java.awt.TextField textField2;
+    java.awt.TextField textField3;
+    java.awt.TextField textField4;
+    java.awt.TextField textField5;
+    javax.swing.JPanel wifiConfPanel;
     // End of variables declaration//GEN-END:variables
 }

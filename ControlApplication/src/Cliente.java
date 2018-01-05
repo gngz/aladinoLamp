@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import java.net.SocketTimeoutException;
+import java.util.Calendar;
 import org.jfree.data.category.DefaultCategoryDataset;
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -34,7 +35,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 public class Cliente {
 
      //meter encapsulamento
-    public final byte TEMP = 1;
+    private final byte TEMP = 1;
     private final byte SETDATE = 4;
     private final byte SETTIME = 5;
     private final byte SETCOLOR = 3;
@@ -49,16 +50,17 @@ public class Cliente {
     private String Address;
     private int Port;
     private Janela frame;
-    final int PORT = 10101;//6442
+    final int PORT = 80;//6442
     private boolean is_Connected = false;
-    
+    private Calendar now = Calendar.getInstance();
     
     public Cliente(String Address, int Port, boolean tipoConnect, Janela frame) throws IOException { //adicionar porta
         if(tipoConnect){
             this.Address = Address;
         }
             this.Port = PORT;
-            this.frame = frame;              
+            this.frame = frame;       
+            
             if(!Initialize(tipoConnect))
             {
                 cliente = null;
@@ -92,17 +94,17 @@ public class Cliente {
     
         class TempThread implements Runnable { // Thread temp
             
-        Thread t;
-        DataInputStream din = null;
-        DataOutputStream dout = null;       
-        int [] tempe = new int [3];
-        boolean parar = false;
-        ArrayList<Float> temperaturas;
-        File arquivo = null;
-        FileWriter fw = null; //para a escrita no ficheiro
-        BufferedWriter bw = null;
-        DefaultCategoryDataset dataSet =  new DefaultCategoryDataset();   
-        double i = 1;
+        private Thread t;
+        private DataInputStream din = null;
+        private DataOutputStream dout = null;       
+        private int [] tempe = new int [3];
+        private boolean parar = false;
+        private ArrayList<Float> temperaturas;
+        private File arquivo = null;
+        private FileWriter fw = null; //para a escrita no ficheiro
+        private BufferedWriter bw = null;
+        private DefaultCategoryDataset dataSet =  new DefaultCategoryDataset();   
+        private double i = 1;
         
         public TempThread(DataInputStream din, DataOutputStream dout) throws IOException 
         {
@@ -128,9 +130,13 @@ public class Cliente {
                 FileWriter fw = new FileWriter(arquivo);
             } catch (IOException ex) {
                 System.out.println("Erro ao abrir o ficheiro");
+                now = Calendar.getInstance();
+                frame.logsList.add("["+now.get(Calendar.HOUR_OF_DAY) + ":" + now.get(Calendar.MINUTE)+"]"+" "+ "Erro ao abrir o ficheiro \n");
             }
             FileWriter fw = new FileWriter(arquivo);
             bw = new BufferedWriter(fw);
+            bw.write("\"Tempo\""+";"+"\"Temperatura\"");
+            bw.newLine();
         }
         
         public void escreveFich() throws IOException
@@ -139,11 +145,10 @@ public class Cliente {
                 
             DateFormat dataFormat = new SimpleDateFormat ("yyyy/MM/dd HH:mm:ss");
             Date date = new Date();
-
-            bw.write("\"Temperatura: \""+";"+"\""+temperaturas.get(tamanho - 1).floatValue()+" ºC"+"\"" + ";"+ "\""+dataFormat.format(date)+"\"");
-            //+" ºC"+ " "+ dataFormat.format(date));"
-            
+ 
+            bw.write("\""+dataFormat.format(date)+"\""+";"+"\"" +temperaturas.get(tamanho - 1).floatValue()+" ºC"+"\"");
             System.out.println(temperaturas.get(tamanho - 1).floatValue());
+            
             bw.newLine();
             bw.flush(); // para atualizar o ficheiro
           
@@ -178,11 +183,13 @@ public class Cliente {
                     Thread.sleep(1000); // requests de 1 a 1 secs
                 } catch (InterruptedException ex) {
                    System.out.println("Thread Halt");
+                   now = Calendar.getInstance();
+                   frame.logsList.add("["+now.get(Calendar.HOUR_OF_DAY) + ":" + now.get(Calendar.MINUTE)+"]"+" "+ "Thread Halt\n");
                    return;
                 }
                 try {
                     sendData(getRequestTemp());
-                    
+                    System.out.println("Parar ="+parar);
                     din.read();
                     
                     tempe[0] = din.read();
@@ -196,6 +203,8 @@ public class Cliente {
                     
                     i = i+ 0.5;
                     System.out.printf("Temperatura: %.2f ºC \n",temper);
+                    now = Calendar.getInstance();
+                    frame.logsList.add("["+now.get(Calendar.HOUR_OF_DAY) + ":" + now.get(Calendar.MINUTE)+"]"+" "+ "Temperatura: \n"+temper+"ºC");
                     temperaturas.add(new Float(temper));
                     frame.setValoresGraph(createDataset(new Double(temper2)));
                  
@@ -205,19 +214,26 @@ public class Cliente {
                     
                 } catch (IOException ex) {
                     System.out.println("Erro no envio de pedido de temperatura");
+                    now = Calendar.getInstance();
+                    frame.logsList.add("["+now.get(Calendar.HOUR_OF_DAY) + ":" + now.get(Calendar.MINUTE)+"]"+" "+ "Erro no envio de pedido de temperatura\n");
                    
                 }
                 
                  System.out.println("Pedido de temperatura enviado");
-                 
+                 now = Calendar.getInstance();
+                 frame.logsList.add("["+now.get(Calendar.HOUR_OF_DAY) + ":" + now.get(Calendar.MINUTE)+"]"+" "+ "Pedido de temperatura enviado\n");
+                 System.out.println("Parar ="+parar);
                  while(parar){
                     try {
                         synchronized(this){
+                            System.out.println("Chegou aki");
                             System.out.println("Thread suspendido");
+                            now = Calendar.getInstance();
+                            frame.logsList.add("["+now.get(Calendar.HOUR_OF_DAY) + ":" + now.get(Calendar.MINUTE)+"]"+" "+ "Thread suspendido\n");
                             wait();
                         }
                     } catch (InterruptedException ex) {
-                        Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+                        System.out.println("Thread susp");
                     }
                  }
                  
@@ -231,6 +247,8 @@ public class Cliente {
                      
                 if(!findAddr()){
                     System.out.println("Nao encontrado");
+                    now = Calendar.getInstance();
+                    frame.logsList.add("["+now.get(Calendar.HOUR_OF_DAY) + ":" + now.get(Calendar.MINUTE)+"]"+" "+ "Search automatico nao encontrou host\n");
                     setbarraProgresso(0);
                     frame.setcancelarProgresso(false);
                     frame.getjanelaProgresso().setVisible(false);
@@ -247,7 +265,8 @@ public class Cliente {
                }
                catch (SocketTimeoutException e) {
                    System.out.println("Erro de Timeout");
-                   
+                   now = Calendar.getInstance();
+                   frame.logsList.add("["+now.get(Calendar.HOUR_OF_DAY) + ":" + now.get(Calendar.MINUTE)+"]"+" "+ "Erro de Timeout");
                     return false;
 	        } 
                catch (IOException e) {
@@ -258,6 +277,8 @@ public class Cliente {
             }    
        
         System.out.println("Utilizador ligado com sucesso no endereço "+cliente.getInetAddress());
+        now = Calendar.getInstance();
+        frame.logsList.add("["+now.get(Calendar.HOUR_OF_DAY) + ":" + now.get(Calendar.MINUTE)+"]"+" "+ "Utilizador ligado com sucesso no endereço "+cliente.getInetAddress());
         
         is_Connected = true;
         try {
@@ -265,6 +286,8 @@ public class Cliente {
             din = new DataInputStream(cliente.getInputStream());
         } catch (IOException ex) {
            System.out.println("Erro ao criar outputStream");
+           now = Calendar.getInstance();
+           frame.logsList.add("["+now.get(Calendar.HOUR_OF_DAY) + ":" + now.get(Calendar.MINUTE)+"]"+" "+ "Erro ao criar outputStream");
         }
         temp = new TempThread(din,dout); //inicia a thread
         
@@ -288,13 +311,16 @@ public class Cliente {
             cliente.close();
         } catch (IOException ex) {
            System.out.println ("Erro ao fechar o socket"); //quando pressionar o botão disconnect.
+           now = Calendar.getInstance();
+           frame.logsList.add("["+now.get(Calendar.HOUR_OF_DAY) + ":" + now.get(Calendar.MINUTE)+"]"+" "+ "Erro ao fechar o socket");
         }
         System.out.println ("Cliente socket fechado"); //quando pressionar o botão disconnect.
-        frame.grayConnect(false);
+        now = Calendar.getInstance();
+        frame.logsList.add("["+now.get(Calendar.HOUR_OF_DAY) + ":" + now.get(Calendar.MINUTE)+"]"+" "+ "Cliente socket fechado");
     }
     
    public void setParar(boolean parar){
-       this.temp.parar = parar;
+       this.getTemp().parar = parar;
    }
    
    synchronized void recomeçar() {
