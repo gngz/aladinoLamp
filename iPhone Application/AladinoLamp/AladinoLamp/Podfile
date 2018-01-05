@@ -1,0 +1,9 @@
+target 'test' do
+
+platform:ios,'8.0'
+
+pod 'SwiftSocket'
+
+use_frameworks!
+
+end
